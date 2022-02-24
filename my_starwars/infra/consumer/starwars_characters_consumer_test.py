@@ -4,10 +4,14 @@ from my_starwars.errors import HttpRequestError
 from . import StarWarsCharactersConsumer
 
 
-def test_get_characters():
+def test_get_characters(requests_mock):
     """Testando o método get_characters"""
 
     url = config.SEARCH_URL
+
+    requests_mock.get(
+        url=url, status_code=200, json={"next": "foo", "results": [{"foo": "bar"}]}
+    )
 
     starwars_characters_consumer = StarWarsCharactersConsumer(url=url)
     params = {"page": 1}
@@ -25,13 +29,15 @@ def test_get_characters():
     assert isinstance(get_characters_response.response["results"], list)
 
 
-def test_get_characters_error():
+def test_get_characters_error(requests_mock):
     """
     Testando o erro no metodo get_characters.
     Utilizando um valor invalido para o parametro 'page'.
     """
 
     url = config.SEARCH_URL
+
+    requests_mock.get(url=url, status_code=404, json={"detail": "Not found"})
 
     starwars_characters_consumer = StarWarsCharactersConsumer(url=url)
     params = {"page": 777}
