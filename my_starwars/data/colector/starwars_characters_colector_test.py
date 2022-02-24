@@ -1,18 +1,18 @@
 """Testes para a classe StarwarsCharactersColector"""
-from my_starwars.infra.consumer import StarWarsCharactersConsumer
+from my_starwars.infra.tests import StarWarsCharactersConsumerSpy
 from my_starwars.data.colector import StarwarsCharactersColector
-from my_starwars.config import SEARCH_URL
 
 
 def test_starwars_characters_colector():
     """Testando o metodo starwars_characters_colector"""
 
-    api_consumer = StarWarsCharactersConsumer(url=SEARCH_URL)
+    api_consumer = StarWarsCharactersConsumerSpy()
     starwars_characters_colector = StarwarsCharactersColector(api_consumer=api_consumer)
 
     response = starwars_characters_colector.starwars_characters_colector()
 
-    # Implementar Spy para testar a entrada
+    # Testando a entrada:
+    assert api_consumer.get_characters_attributes["page"] == list(range(1, 20))
 
     # Testando a saída:
     assert isinstance(response, dict)
