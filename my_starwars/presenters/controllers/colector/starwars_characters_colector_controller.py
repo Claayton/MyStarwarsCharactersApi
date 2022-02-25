@@ -1,6 +1,7 @@
 """Controllers para StarwarsCharactersColector"""
 from typing import Type
 from my_starwars.presenters.helpers import HttpRequest, HttpResponse
+from my_starwars.errors import HttpBadRequestError
 from my_starwars.presenters.interfaces import ControllerInterface
 from my_starwars.domain.usecases import (
     StarwarsCharactersColectorInterface as StarwarsCharactersColector,
@@ -21,4 +22,6 @@ class StarwarsCharactersColectorController(ControllerInterface):
         if response["success"] is True:
             return HttpResponse(status_code=200, body=response["data"])
 
-        raise Exception  # Implementar exeçao personalizada
+        raise HttpBadRequestError(
+            message={"error": "Algo inesperado aconteceu nos controllers do servidor!"}
+        )
