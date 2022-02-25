@@ -1,6 +1,6 @@
 """Caso de uso: StarwarsCharactersColector"""
 from typing import Type, Dict, List
-from my_starwars.errors import HttpRequestError
+from my_starwars.errors import HttpRequestError, HttpBadRequestError
 from my_starwars.domain.usecases import StarwarsCharactersColectorInterface
 from my_starwars.data.interfaces import (
     StarWarsCharactersConsumerInterface as StarWarsCharactersConsumer,
@@ -33,7 +33,7 @@ class StarwarsCharactersColector(StarwarsCharactersColectorInterface):
 
             except Exception as error:
 
-                raise error  # Implementar um erro personalizado aqui para retornar na API!
+                raise HttpBadRequestError(message={"error": str(error)}) from error
 
             for character in get_characters.response["results"]:
 
@@ -59,7 +59,7 @@ class StarwarsCharactersColector(StarwarsCharactersColectorInterface):
 
                 separete_data.append(
                     {
-                        "index": index,
+                        "id": index + 1,
                         "name": character["name"],
                         "height": character["height"],
                         "mass": character["mass"],
@@ -73,6 +73,6 @@ class StarwarsCharactersColector(StarwarsCharactersColectorInterface):
 
             except Exception as error:
 
-                raise error  # Implementar um erro personalizado aqui para retornar na API!
+                raise HttpBadRequestError(message={"error": str(error)}) from error
 
         return separete_data
