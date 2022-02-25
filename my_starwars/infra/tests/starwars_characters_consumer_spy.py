@@ -3,9 +3,10 @@ from typing import Type, Tuple, Dict
 from collections import namedtuple
 from requests import Request
 from faker import Faker
+from my_starwars.data.interfaces import StarWarsCharactersConsumerInterface
 
 
-class StarWarsCharactersConsumerSpy:
+class StarWarsCharactersConsumerSpy(StarWarsCharactersConsumerInterface):
     """Spy para StarWarsCharactersConsumer"""
 
     def __init__(self) -> None:

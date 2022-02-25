@@ -59,7 +59,7 @@ class StarwarsCharactersColector(StarwarsCharactersColectorInterface):
 
                 separete_data.append(
                     {
-                        "index": index,
+                        "index": index + 1,
                         "name": character["name"],
                         "height": character["height"],
                         "mass": character["mass"],
