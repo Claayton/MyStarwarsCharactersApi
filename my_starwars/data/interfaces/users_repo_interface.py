@@ -13,7 +13,9 @@ class UserRepoInterface(ABC):
         raise Exception("Must implement insert_user")
 
     @abstractmethod
-    def select_user(self, name: str, user_id) -> User:
+    def select_user(
+        self, name: str = None, user_id: int = None, email: str = None
+    ) -> User:
         """Deve ser implementado"""
 
         raise Exception("Must implement select_user")

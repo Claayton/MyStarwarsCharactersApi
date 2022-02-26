@@ -33,7 +33,9 @@ class UserRepoSpy(UserRepoInterface):
             password_hash=fake.word(),
         )
 
-    def select_user(self, name: str = None, user_id: int = None) -> User:
+    def select_user(
+        self, name: str = None, user_id: int = None, email: str = None
+    ) -> User:
         """
         Realiza a busca de um usuário cadastrado no banco de dados.
         Os dados podem ser especificados pelo nome ou pelo id do usuario.
@@ -44,6 +46,7 @@ class UserRepoSpy(UserRepoInterface):
 
         self.insert_user_params["name"] = name
         self.insert_user_params["user_id"] = user_id
+        self.insert_user_params["email"] = email
 
         return User(
             id=fake.random_number(digits=3),
