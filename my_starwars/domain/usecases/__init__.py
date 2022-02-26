@@ -1,3 +1,4 @@
 """Arquivo de inicializaçao do modulo usecases"""
 from .starwars_characters_colector_interface import StarwarsCharactersColectorInterface
 from .register_user_interface import RegisterUserInterface
+from .hash_password_interface import HashPasswordInterface
