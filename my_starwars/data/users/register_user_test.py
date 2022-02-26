@@ -1,7 +1,6 @@
 """Testes para a classe RegisterUser"""
 from faker import Faker
-from my_starwars.infra.database.repo import UserRepo
-from my_starwars.config import CONNECTION_STRING
+from my_starwars.infra.tests import UserRepoSpy
 from .register_user import RegisterUser
 
 fake = Faker()
@@ -10,7 +9,7 @@ fake = Faker()
 def test_register():
     """Testando o metodo register"""
 
-    user_repo = UserRepo(CONNECTION_STRING)
+    user_repo = UserRepoSpy()
     register_user = RegisterUser(user_repo)
 
     name = fake.name()
@@ -22,7 +21,9 @@ def test_register():
     )
 
     # Testando a entrada:
-    # Implementar Spy para testar a entrada
+    assert user_repo.insert_user_params["name"] == name
+    assert user_repo.insert_user_params["email"] == email
+    assert user_repo.insert_user_params["password_hash"] == password_hash
 
     # Testando a saida:
     assert response["success"] is True
