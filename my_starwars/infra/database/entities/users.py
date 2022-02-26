@@ -15,12 +15,17 @@ class User(Base):
     password_hash = Column(String(256), nullable=False)
 
     starwars_character_id = Column(Integer, ForeignKey("starwars_characters.id"))
-    starwars_character = relationship("StarwarsCharacter", back_populates="users")
-
-    def __init__(self, name: str, email: str, password_hash: str) -> None:
-        self.name = name
-        self.email = email
-        self.password_hash = password_hash
 
     def __repr__(self) -> str:
         return f"User: {self.name}"
+
+    def __eq__(self, other):
+
+        if (
+            self.id == other.id
+            and self.name == other.name
+            and self.email == other.email
+            and self.password_hash == other.password_hash
+        ):
+            return True
+        return False

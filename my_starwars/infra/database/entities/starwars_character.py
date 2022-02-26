@@ -19,27 +19,23 @@ class StarwarsCharacter(Base):
     birth_year = Column(String)
     gender = Column(String)
 
-    users = relationship("User", back_populates="starwars_characters")
-
-    def __init__(
-        self,
-        name: str,
-        height: float,
-        mass: float,
-        hair_color: str,
-        skin_color: str,
-        eye_color: str,
-        birth_year: str,
-        gender: str,
-    ) -> None:
-        self.name = name
-        self.heigth = height
-        self.mass = mass
-        self.hair_color = hair_color
-        self.skin_color = skin_color
-        self.eye_color = eye_color
-        self.birth_year = birth_year
-        self.gender = gender
+    users = relationship("User")
 
     def __repr__(self) -> str:
         return f"StarwarsCharacter: {self.name}"
+
+    def __eq__(self, other):
+
+        if (
+            self.id == other.id
+            and self.name == other.name
+            and self.heigth == other.heigth
+            and self.mass == other.mass
+            and self.hair_color == other.hair_color
+            and self.skin_color == other.skin_color
+            and self.eye_color == other.eye_color
+            and self.birth_year == other.eye_color
+            and self.gender == other.gender
+        ):
+            return True
+        return False
