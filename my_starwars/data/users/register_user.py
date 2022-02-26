@@ -3,6 +3,7 @@ from typing import Type, Dict
 from my_starwars.domain.models import User
 from my_starwars.domain.usecases import RegisterUserInterface, HashPasswordInterface
 from my_starwars.data.interfaces import UserRepoInterface
+from my_starwars.errors.http_error400 import HttpBadRequestError
 
 
 class RegisterUser(RegisterUserInterface):
@@ -39,4 +40,9 @@ class RegisterUser(RegisterUserInterface):
                 name=name, email=email, password_hash=password_hash
             )
 
-        return {"success": validate_entry, "data": user_insertion}
+            return {"success": validate_entry, "data": user_insertion}
+
+        raise HttpBadRequestError(
+            message="Esta requisiçao necessita dos parametros:\
+            'name', 'email', 'password'"
+        )
