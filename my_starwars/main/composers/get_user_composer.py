@@ -5,8 +5,8 @@ from my_starwars.presenters.controllers.users import GetUserController
 from my_starwars.config import CONNECTION_STRING
 
 
-def register_user_composer():
-    """Montagem do caso de uso Registeruser"""
+def get_user_composer():
+    """Montagem do caso de uso GetUser"""
 
     infra = UserRepo(CONNECTION_STRING)
     usecase = GetUser(infra)
