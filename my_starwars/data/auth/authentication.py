@@ -30,7 +30,7 @@ class Authentication(AuthenticationInterface):
 
         user = self.__get_user.get_user_by_email(email=email)["data"]
         verify_password = self.__hash_password.verify_password(
-            password, user.password_hash
+            password, user.password_hash.encode("utf8")
         )
 
         if not user:

@@ -37,7 +37,7 @@ class RegisterUser(RegisterUserInterface):
             password_hash = self.__hash_password.hash_password(password)
 
             user_insertion = self.__user_repo.insert_user(
-                name=name, email=email, password_hash=password_hash
+                name=name, email=email, password_hash=password_hash.decode()
             )
 
             return {"success": validate_entry, "data": user_insertion}

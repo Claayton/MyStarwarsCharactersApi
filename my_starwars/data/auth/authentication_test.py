@@ -16,7 +16,7 @@ def test_authentication():
     user_auth = Authentication(get_user, hash_password)
 
     email = f"{fake.word()}@test.com"
-    password = "estaeumasenhadeteste@123"
+    password = "voumudaressasenhaumdia"
 
     response = user_auth.authentication(email, password)
 
