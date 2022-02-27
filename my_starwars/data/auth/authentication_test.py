@@ -13,12 +13,12 @@ def test_authentication():
     infra = UserRepoSpy()
     get_user = GetUser(infra)
     hash_password = HashPassword()
-    user_auth = Authentication(get_user, hash_password)
+    authentication = Authentication(get_user, hash_password)
 
     email = f"{fake.word()}@test.com"
     password = "voumudaressasenhaumdia"
 
-    response = user_auth.authentication(email, password)
+    response = authentication.authentication(email, password)
 
     # Testando a entrada:
     # Implementar spy para hash_password
