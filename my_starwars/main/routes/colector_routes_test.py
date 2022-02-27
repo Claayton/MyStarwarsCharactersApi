@@ -1,6 +1,6 @@
 """Testes para a rota get_starwars_characters"""
 from fastapi.testclient import TestClient
-from .starwars_characters_colector_route import colector
+from .colector_routes import colector
 
 client = TestClient(colector)
 

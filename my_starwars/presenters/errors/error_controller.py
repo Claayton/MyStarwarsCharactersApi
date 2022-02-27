@@ -1,7 +1,11 @@
 """Lógica para tratamento de erros"""
 from typing import Type, Dict
 from my_starwars.presenters.helpers.http_models import HttpResponse
-from my_starwars.errors import HttpRequestError, HttpBadRequestError
+from my_starwars.errors import (
+    HttpRequestError,
+    HttpBadRequestError,
+    HttpUnprocessableEntity,
+)
 
 
 def handler_errors(error: Type[Exception]) -> Dict:
@@ -11,7 +15,9 @@ def handler_errors(error: Type[Exception]) -> Dict:
     :return: Um dicionario com o status_code e uma mensagem para esse tipo de erro.
     """
 
-    if isinstance(error, (HttpRequestError, HttpBadRequestError)):
+    if isinstance(
+        error, (HttpRequestError, HttpBadRequestError, HttpUnprocessableEntity)
+    ):
         http_response = HttpResponse(
             status_code=error.status_code, body={"error": str(error)}
         )
