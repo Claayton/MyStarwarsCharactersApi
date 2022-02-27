@@ -1,6 +1,6 @@
 """Arquivo de instancia do app"""
 from fastapi import FastAPI
-from my_starwars.main.routes import colector, users
+from my_starwars.main.routes import colector, users, auth
 
 
 def create_app() -> FastAPI:
@@ -17,5 +17,6 @@ def create_app() -> FastAPI:
 
     app.include_router(colector)
     app.include_router(users)
+    app.include_router(auth)
 
     return app

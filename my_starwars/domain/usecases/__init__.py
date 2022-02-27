@@ -3,3 +3,4 @@ from .starwars_characters_colector_interface import StarwarsCharactersColectorIn
 from .register_user_interface import RegisterUserInterface
 from .hash_password_interface import HashPasswordInterface
 from .get_user_interface import GetUserInterface
+from .authentication_interface import AuthenticationInterface

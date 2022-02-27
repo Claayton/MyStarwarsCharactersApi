@@ -53,3 +53,28 @@ async def get_user_validator(request: any) -> bool:
     if response is False:
 
         raise HttpUnprocessableEntity(message=query_params_validator.errors)
+
+
+async def authentication_validator(request: any) -> bool:
+    """Validador para Authentication"""
+
+    try:
+        body = await request.json()
+    except Exception as error:
+        raise HttpBadRequestError(
+            message="Esta requisiçao necessita dos parametros:\
+            'email', 'password'"
+        ) from error
+
+    body_params_validator = Validator(
+        {
+            "email": {"type": "string", "required": True},
+            "password": {"type": ["string", "integer"], "required": True},
+        }
+    )
+
+    response = body_params_validator.validate(body)
+
+    if response is False:
+
+        raise HttpUnprocessableEntity(message=body_params_validator.errors)
