@@ -28,9 +28,9 @@ class UserRepoSpy(UserRepoInterface):
 
         return User(
             id=fake.random_number(digits=3),
-            name=fake.name,
+            name=fake.name(),
             email=f"{name}@mock.com",
-            password_hash=fake.word(),
+            password_hash=b"$2b$12$gS5XWVaQqbmIkWHeNTsIWO/qmQHMUeObOU8bT6nYjbi47NbCH2QG.",
         )
 
     def select_user(
@@ -59,15 +59,15 @@ class UserRepoSpy(UserRepoInterface):
             return [
                 User(
                     id=fake.random_number(digits=3),
-                    name=fake.name,
+                    name=fake.name(),
                     email=f"{name}@mock.com",
-                    password_hash=fake.word(),
+                    password_hash=b"$2b$12$gS5XWVaQqbmIkWHeNTsIWO/qmQHMUeObOU8bT6nYjbi47NbCH2QG.",
                 )
             ]
 
         return User(
             id=fake.random_number(digits=3),
-            name=fake.name,
+            name=fake.name(),
             email=f"{name}@mock.com",
-            password_hash=fake.word(),
+            password_hash=b"$2b$12$gS5XWVaQqbmIkWHeNTsIWO/qmQHMUeObOU8bT6nYjbi47NbCH2QG.",
         )
