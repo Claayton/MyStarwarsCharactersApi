@@ -1,6 +1,6 @@
 """Testes para a classe StarwarsCharactersColector"""
 from my_starwars.infra.tests import StarWarsCharactersConsumerSpy
-from my_starwars.data.colector import StarwarsCharactersColector
+from my_starwars.data.chraracters import StarwarsCharactersColector
 
 
 def test_starwars_characters_colector():

@@ -1,6 +1,6 @@
 """Arquivo para montar o caso de uso StarwarsCharactersColector"""
 from my_starwars.infra.consumer import StarWarsCharactersConsumer
-from my_starwars.data.colector import StarwarsCharactersColector
+from my_starwars.data.chraracters import StarwarsCharactersColector
 from my_starwars.presenters.controllers.colector import (
     StarwarsCharactersColectorController,
 )

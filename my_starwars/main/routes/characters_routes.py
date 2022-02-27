@@ -5,10 +5,10 @@ from my_starwars.main.adapters import request_adapter
 from my_starwars.presenters.errors import handler_errors
 from my_starwars.main.composers import starwars_characters_colector_composer
 
-colector = APIRouter(prefix="/api/colector")
+characters = APIRouter(prefix="/api/characters")
 
 
-@colector.get("/characters/")
+@characters.get("/direct/")
 async def get_starwars_characters(request: RequestFastApi):
     """Rota para buscar os principais dados dos personagens de starwars"""
 
