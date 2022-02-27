@@ -25,6 +25,6 @@ def test_authentication():
 
     # Testando a saida:
     assert isinstance(response, dict)
-    assert "exp" in response
-    assert "Authorization" in response
-    assert "user" in response
+    assert "exp" in response["data"]
+    assert "Authorization" in response["data"]
+    assert "user" in response["data"]
