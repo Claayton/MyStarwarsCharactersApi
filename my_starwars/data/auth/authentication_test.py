@@ -1,8 +1,8 @@
-"""Testes para a classe UserAuth"""
+"""Testes para a classe Authentication"""
 from faker import Faker
 from my_starwars.infra.tests import UserRepoSpy
 from my_starwars.data.users import GetUser, HashPassword
-from .user_auth import UserAuth
+from .authentication import Authentication
 
 fake = Faker()
 
@@ -13,7 +13,7 @@ def test_authentication():
     infra = UserRepoSpy()
     get_user = GetUser(infra)
     hash_password = HashPassword()
-    user_auth = UserAuth(get_user, hash_password)
+    user_auth = Authentication(get_user, hash_password)
 
     email = f"{fake.word()}@test.com"
     password = "estaeumasenhadeteste@123"
