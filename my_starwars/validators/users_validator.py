@@ -14,7 +14,7 @@ async def register_user_validator(request: any) -> bool:
             'name', 'email', 'password'"
         ) from error
 
-    body_params = Validator(
+    body_params_validator = Validator(
         {
             "name": {"type": "string", "required": True},
             "email": {"type": "string", "required": True},
@@ -22,8 +22,34 @@ async def register_user_validator(request: any) -> bool:
         }
     )
 
-    response = body_params.validate(body)
+    response = body_params_validator.validate(body)
 
     if response is False:
 
-        raise HttpUnprocessableEntity(message=body_params.errors)
+        raise HttpUnprocessableEntity(message=body_params_validator.errors)
+
+
+async def get_user_validator(request: any) -> bool:
+    """Validador para GetUser"""
+
+    query_params = dict(request.query_params)
+    try:
+        query_params["user_id"] = int(query_params["user_id"])
+    except KeyError:
+        pass
+    except Exception as error:
+        raise HttpUnprocessableEntity(message=str(error)) from error
+
+    query_params_validator = Validator(
+        {
+            "user_id": {"type": "integer"},
+            "name": {"type": "string"},
+            "email": {"type": "string"},
+        }
+    )
+
+    response = query_params_validator.validate(query_params)
+
+    if response is False:
+
+        raise HttpUnprocessableEntity(message=query_params_validator.errors)
