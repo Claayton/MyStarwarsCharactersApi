@@ -14,7 +14,11 @@ class UserRepoInterface(ABC):
 
     @abstractmethod
     def select_user(
-        self, name: str = None, user_id: int = None, email: str = None
+        self,
+        name: str = None,
+        user_id: int = None,
+        email: str = None,
+        all_users: bool = False,
     ) -> User:
         """Deve ser implementado"""
 

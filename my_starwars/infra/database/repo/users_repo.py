@@ -43,7 +43,11 @@ class UserRepo(UserRepoInterface):
                 data_base.session.close()
 
     def select_user(
-        self, name: str = None, user_id: int = None, email: str = None
+        self,
+        name: str = None,
+        user_id: int = None,
+        email: str = None,
+        all_users: bool = False,
     ) -> User:
         """
         Realiza a busca de um usuário cadastrado no banco de dados.
@@ -51,13 +55,20 @@ class UserRepo(UserRepoInterface):
         :param name: Nome do usuario.
         :param user_id: ID do usuario.
         :param email: Email do usuario cadastrado.
+        :param all_users: Caso seja verdadeiro retorna todos os usuarios cadastrados.
         :return: Uma tupla nomeada com todos os dados do usuario.
         """
 
         try:
             query_data = None
 
-            if name:
+            if all_users:
+
+                with DataBaseConnectionHandler(self.__connection_string) as data_base:
+
+                    query_data = data_base.session.query(UserModel).all()
+
+            elif name:
 
                 with DataBaseConnectionHandler(self.__connection_string) as data_base:
 
