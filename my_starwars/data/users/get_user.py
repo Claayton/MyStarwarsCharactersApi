@@ -58,3 +58,13 @@ class GetUser(GetUserInterface):
             response = self.__user_repo.select_user(email=email)
 
         return {"success": validate_entry, "data": response}
+
+    def get_users(self) -> Dict[bool, User]:
+        """
+        Realiza a busca de todos os usuarios cadastrados nobanco de dados.
+        :return: Uma mensagem de sucesso e os usuario.
+        """
+
+        response = self.__user_repo.select_user(all_users=True)
+
+        return {"success": True, "data": response}

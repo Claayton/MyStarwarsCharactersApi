@@ -24,3 +24,9 @@ class GetUserInterface(ABC):
         """Deve ser implementado"""
 
         raise Exception("Must implement get_user_by_email")
+
+    @abstractmethod
+    def get_users(self) -> Dict[bool, User]:
+        """Deve ser implementado"""
+
+        raise Exception("Must implement get_users")
