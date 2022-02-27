@@ -115,3 +115,27 @@ def test_select_user_by_name_and_by_id():
     assert isinstance(select_user, UserModel)
     assert select_user == data
     engine.execute(f"DELETE FROM users WHERE name='{name}';")
+
+
+def test_select_all_users():
+    """Testando o metodo select_user, buscando todos os usuarios cadastrados."""
+
+    user_id = fake.random_number(digits=3)
+    name = fake.name()
+    email = f"{fake.word()}@gmail.com"
+    password_hash = fake.word()
+
+    data = User(id=user_id, name=name, email=email, password_hash=password_hash)
+
+    engine = data_base_connection_handler.get_engine()
+    engine.execute(
+        f"INSERT INTO users (id, name, email, password_hash)\
+            VALUES ('{user_id}', '{name}', '{email}', '{password_hash}');"
+    )
+
+    select_user = user_repo.select_user(all_users=True)
+
+    # Testando se as informaçoes enviadas pelo metodo podem ser encontradas no db.
+    assert isinstance(select_user, list)
+    assert data in select_user
+    engine.execute(f"DELETE FROM users WHERE name='{name}';")
