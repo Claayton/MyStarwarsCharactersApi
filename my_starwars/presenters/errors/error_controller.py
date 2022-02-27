@@ -5,6 +5,7 @@ from my_starwars.errors import (
     HttpRequestError,
     HttpBadRequestError,
     HttpUnprocessableEntity,
+    HttpUnauthorized,
 )
 
 
@@ -16,7 +17,13 @@ def handler_errors(error: Type[Exception]) -> Dict:
     """
 
     if isinstance(
-        error, (HttpRequestError, HttpBadRequestError, HttpUnprocessableEntity)
+        error,
+        (
+            HttpRequestError,
+            HttpBadRequestError,
+            HttpUnprocessableEntity,
+            HttpUnauthorized,
+        ),
     ):
         http_response = HttpResponse(
             status_code=error.status_code, body={"error": str(error)}
