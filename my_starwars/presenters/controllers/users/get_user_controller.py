@@ -1,4 +1,4 @@
-"""Controllers para Getuser"""
+"""Controllers para GetUser"""
 from typing import Type
 from my_starwars.domain.models import User
 from my_starwars.errors import HttpBadRequestError
@@ -8,7 +8,7 @@ from my_starwars.presenters.interfaces import ControllerInterface
 
 
 class GetUserController(ControllerInterface):
-    """Controller para o caso de uso Getuser"""
+    """Controller para o caso de uso GetUser"""
 
     def __init__(self, usecase: Type[GetUserInterface]) -> None:
         self.__usecase = usecase
