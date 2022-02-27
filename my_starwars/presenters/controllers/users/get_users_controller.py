@@ -35,14 +35,13 @@ class GetUsersController(ControllerInterface):
 
             full_response.append(
                 {
-                    "message": "Usuarios encontrados!",
-                    "data": {
-                        "id": user.id,
-                        "name": user.name,
-                        "email": user.email,
-                        "password": "Não mostramos isso aqui!",
-                    },
+                    "id": user.id,
+                    "name": user.name,
+                    "email": user.email,
+                    "password": "Não mostramos isso aqui!",
                 }
             )
 
-        return HttpResponse(status_code=200, body=full_response)
+        response = {"message": "Usuarios encontrados!", "data": full_response}
+
+        return HttpResponse(status_code=200, body=response)
