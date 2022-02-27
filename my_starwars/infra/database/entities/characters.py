@@ -1,13 +1,13 @@
-"""Instancia da tabela StarwarsCharacter e seus metodos"""
+"""Instancia da tabela Character e seus metodos"""
 from sqlalchemy import Column, Integer, String, Float
 from sqlalchemy.orm import relationship
 from my_starwars.infra.database.config import Base
 
 
-class StarwarsCharacter(Base):
+class Character(Base):
     """Tabela de personagens de starwars"""
 
-    __tablename__ = "starwars_characters"
+    __tablename__ = "characters"
 
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
@@ -22,7 +22,7 @@ class StarwarsCharacter(Base):
     users = relationship("User")
 
     def __repr__(self) -> str:
-        return f"StarwarsCharacter: {self.name}"
+        return f"Character: {self.name}"
 
     def __eq__(self, other):
 

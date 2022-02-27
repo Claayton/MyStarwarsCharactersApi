@@ -1,3 +1,3 @@
 """Arquivo de iniciaçao do modulo entities"""
-from .starwars_character import StarwarsCharacter
+from .characters import Character
 from .users import User
