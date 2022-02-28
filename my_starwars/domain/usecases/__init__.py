@@ -5,3 +5,4 @@ from .hash_password_interface import HashPasswordInterface
 from .get_user_interface import GetUserInterface
 from .authentication_interface import AuthenticationInterface
 from .authorization_interface import AuthorizationInterface
+from .register_character_interface import RegisterCharacterInterface
