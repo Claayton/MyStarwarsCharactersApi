@@ -11,7 +11,7 @@ class Character(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
-    heigth = Column(Float)
+    height = Column(Float)
     mass = Column(Float)
     hair_color = Column(String)
     skin_color = Column(String)
@@ -29,7 +29,7 @@ class Character(Base):
         if (
             self.id == other.id
             and self.name == other.name
-            and self.heigth == other.heigth
+            and self.height == other.height
             and self.mass == other.mass
             and self.hair_color == other.hair_color
             and self.skin_color == other.skin_color

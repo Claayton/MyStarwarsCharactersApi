@@ -1,13 +1,12 @@
 """Testes para a classe CharacterRepo"""
 from faker import Faker
 from my_starwars.infra.database.config import DataBaseConnectionHandler
-from my_starwars.infra.database.entities import Character as CharacterModel
 from my_starwars.domain.models import Character
 from my_starwars import config
-from . import CharacterRepo
+from my_starwars.infra.tests import CharacterRepoSpy
 
 fake = Faker()
-character_repo = CharacterRepo(config.CONNECTION_STRING)
+character_repo = CharacterRepoSpy()
 data_base_connection_handler = DataBaseConnectionHandler(config.CONNECTION_STRING)
 
 
@@ -55,7 +54,7 @@ def test_select_character_by_id():
 
     character_id = fake.random_number(digits=3)
     name = fake.name()
-    heigth = fake.random_number()
+    height = fake.random_number()
     mass = fake.random_number()
     hair_color = fake.word()
     skin_color = fake.word()
@@ -66,7 +65,7 @@ def test_select_character_by_id():
     data = Character(
         id=character_id,
         name=name,
-        heigth=heigth,
+        height=height,
         mass=mass,
         hair_color=hair_color,
         skin_color=skin_color,
@@ -78,19 +77,22 @@ def test_select_character_by_id():
     engine = data_base_connection_handler.get_engine()
     engine.execute(
         f"INSERT INTO characters (\
-            id, name, heigth, mass, hair_color, skin_color, eye_color, birth_year, gender\
+            id, name, height, mass, hair_color, skin_color, eye_color, birth_year, gender\
         ) VALUES (\
-            '{character_id}', '{name}', '{heigth}', '{mass}', '{hair_color}',\
+            '{character_id}', '{name}', '{height}', '{mass}', '{hair_color}',\
                 '{skin_color}', '{eye_color}', '{birth_year}', '{gender}'\
         );"
     )
 
     select_character = character_repo.select_character(character_id=character_id)
 
-    # Testando se as informaçoes enviadas pelo metodo podem ser encontradas no db.
-    assert isinstance(select_character, CharacterModel)
-    assert select_character.name == data.name
-    assert select_character.id == data.id
+    # Testando as entradas.
+    assert character_repo.select_character_params["character_id"] == data.id
+
+    # Testando as saidas
+    assert isinstance(select_character[0], Character)
+    assert select_character[0].name
+    assert select_character[0].height
     engine.execute(f"DELETE FROM characters WHERE name='{name}';")
 
 
@@ -102,7 +104,7 @@ def test_select_character_by_name():
 
     character_id = fake.random_number(digits=3)
     name = fake.name()
-    heigth = fake.random_number()
+    height = fake.random_number()
     mass = fake.random_number()
     hair_color = fake.word()
     skin_color = fake.word()
@@ -113,7 +115,7 @@ def test_select_character_by_name():
     data = Character(
         id=character_id,
         name=name,
-        heigth=heigth,
+        height=height,
         mass=mass,
         hair_color=hair_color,
         skin_color=skin_color,
@@ -125,19 +127,22 @@ def test_select_character_by_name():
     engine = data_base_connection_handler.get_engine()
     engine.execute(
         f"INSERT INTO characters (\
-            id, name, heigth, mass, hair_color, skin_color, eye_color, birth_year, gender\
+            id, name, height, mass, hair_color, skin_color, eye_color, birth_year, gender\
         ) VALUES (\
-            '{character_id}', '{name}', '{heigth}', '{mass}', '{hair_color}',\
+            '{character_id}', '{name}', '{height}', '{mass}', '{hair_color}',\
                 '{skin_color}', '{eye_color}', '{birth_year}', '{gender}'\
         );"
     )
 
     select_character = character_repo.select_character(name=name)
 
-    # Testando se as informaçoes enviadas pelo metodo podem ser encontradas no db.
-    assert isinstance(select_character, CharacterModel)
-    assert select_character.name == data.name
-    assert select_character.id == data.id
+    # Testando as entradas.
+    assert character_repo.select_character_params["name"] == data.name
+
+    # Testando as saidas
+    assert isinstance(select_character[0], Character)
+    assert select_character[0].name
+    assert select_character[0].height
     engine.execute(f"DELETE FROM characters WHERE name='{name}';")
 
 
@@ -149,7 +154,7 @@ def test_select_character_by_name_and_by_id():
 
     character_id = fake.random_number(digits=3)
     name = fake.name()
-    heigth = fake.random_number()
+    height = fake.random_number()
     mass = fake.random_number()
     hair_color = fake.word()
     skin_color = fake.word()
@@ -160,7 +165,7 @@ def test_select_character_by_name_and_by_id():
     data = Character(
         id=character_id,
         name=name,
-        heigth=heigth,
+        height=height,
         mass=mass,
         hair_color=hair_color,
         skin_color=skin_color,
@@ -172,9 +177,9 @@ def test_select_character_by_name_and_by_id():
     engine = data_base_connection_handler.get_engine()
     engine.execute(
         f"INSERT INTO characters (\
-            id, name, heigth, mass, hair_color, skin_color, eye_color, birth_year, gender\
+            id, name, height, mass, hair_color, skin_color, eye_color, birth_year, gender\
         ) VALUES (\
-            '{character_id}', '{name}', '{heigth}', '{mass}', '{hair_color}',\
+            '{character_id}', '{name}', '{height}', '{mass}', '{hair_color}',\
                 '{skin_color}', '{eye_color}', '{birth_year}', '{gender}'\
         );"
     )
@@ -183,10 +188,14 @@ def test_select_character_by_name_and_by_id():
         character_id=character_id, name=name
     )
 
-    # Testando se as informaçoes enviadas pelo metodo podem ser encontradas no db.
-    assert isinstance(select_character, CharacterModel)
-    assert select_character.name == data.name
-    assert select_character.id == data.id
+    # Testando as entradas.
+    assert character_repo.select_character_params["character_id"] == data.id
+    assert character_repo.select_character_params["name"] == data.name
+
+    # Testando as saidas
+    assert isinstance(select_character[0], Character)
+    assert select_character[0].name
+    assert select_character[0].height
     engine.execute(f"DELETE FROM characters WHERE name='{name}';")
 
 
@@ -195,7 +204,7 @@ def test_select_all_characters():
 
     character_id = fake.random_number(digits=3)
     name = fake.name()
-    heigth = fake.random_number()
+    height = fake.random_number()
     mass = fake.random_number()
     hair_color = fake.word()
     skin_color = fake.word()
@@ -206,9 +215,9 @@ def test_select_all_characters():
     engine = data_base_connection_handler.get_engine()
     engine.execute(
         f"INSERT INTO characters (\
-            id, name, heigth, mass, hair_color, skin_color, eye_color, birth_year, gender\
+            id, name, height, mass, hair_color, skin_color, eye_color, birth_year, gender\
         ) VALUES (\
-            '{character_id}', '{name}', '{heigth}', '{mass}', '{hair_color}',\
+            '{character_id}', '{name}', '{height}', '{mass}', '{hair_color}',\
                 '{skin_color}', '{eye_color}', '{birth_year}', '{gender}'\
         );"
     )
@@ -217,5 +226,6 @@ def test_select_all_characters():
 
     # Testando se as informaçoes enviadas pelo metodo podem ser encontradas no db.
     assert isinstance(select_character, list)
-    assert select_character is not None
+    assert select_character[0].name
+    assert select_character[0].hair_color
     engine.execute(f"DELETE FROM users WHERE name='{name}';")
