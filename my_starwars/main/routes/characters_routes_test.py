@@ -1,14 +1,14 @@
 """Testes para a rota get_starwars_characters"""
 from fastapi.testclient import TestClient
-from .colector_routes import colector
+from .characters_routes import characters
 
-client = TestClient(colector)
+client = TestClient(characters)
 
 
 def test_get_starwars_characters():
     """Testando a rota get_starwars_characters"""
 
-    url = "api/colector/characters/"
+    url = "api/characters/direct/"
 
     response = client.get(url=url)
 

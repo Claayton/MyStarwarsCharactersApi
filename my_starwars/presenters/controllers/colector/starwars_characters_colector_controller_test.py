@@ -1,6 +1,6 @@
 """Testes para StarwarsCharactersColectorController"""
 from my_starwars.infra.tests import StarWarsCharactersConsumerSpy
-from my_starwars.data.colector import StarwarsCharactersColector
+from my_starwars.data.chraracters import StarwarsCharactersColector
 from my_starwars.presenters.controllers.colector import (
     StarwarsCharactersColectorController,
 )

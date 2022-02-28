@@ -11,7 +11,7 @@ from my_starwars.domain.usecases import AuthenticationInterface
 
 class Authentication(AuthenticationInterface):
     """
-    Classe responsavel pela autenticaçao e autorizaçao dos usuarios no sistema.
+    Classe responsavel pela autenticaçao dos usuarios no sistema.
     """
 
     def __init__(

@@ -14,7 +14,7 @@ class User(Base):
     email = Column(String(100), nullable=False)
     password_hash = Column(String(256), nullable=False)
 
-    starwars_character_id = Column(Integer, ForeignKey("starwars_characters.id"))
+    character_id = Column(Integer, ForeignKey("characters.id"))
 
     def __repr__(self) -> str:
         return f"User: {self.name}"
