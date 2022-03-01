@@ -1,6 +1,6 @@
 """Testes para a classe RegisterCharacters"""
 from my_starwars.infra.tests import StarWarsCharactersConsumerSpy
-from my_starwars.data.chraracters import StarwarsCharactersColector
+from my_starwars.data.chraracters import StarwarsCharactersColector, GetCharacter
 from my_starwars.infra.tests import CharacterRepoSpy
 from .register_characters import RegisterCharacter
 
@@ -11,7 +11,8 @@ def test_register_characters():
     infra_consumer = StarWarsCharactersConsumerSpy()
     infra_repo = CharacterRepoSpy()
     colector = StarwarsCharactersColector(infra_consumer)
-    usecase = RegisterCharacter(colector, infra_repo)
+    get_character = GetCharacter(infra_repo)
+    usecase = RegisterCharacter(colector, infra_repo, get_character)
 
     response = usecase.register_characters()
 
