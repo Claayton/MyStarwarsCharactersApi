@@ -17,5 +17,5 @@ class RegisterCharacterController(ControllerInterface):
         """Metodo para chamar o caso de uso"""
 
         response = self.__usecase.register_characters()
-
-        return HttpResponse(status_code=200, body=response["data"])
+        print(response)
+        return HttpResponse(status_code=201, body=response["data"])

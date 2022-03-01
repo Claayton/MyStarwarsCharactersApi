@@ -19,5 +19,5 @@ def test_handler():
 
     response = controller.handler(None)
 
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert "error" not in response.body
