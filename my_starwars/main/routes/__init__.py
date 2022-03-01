@@ -2,3 +2,4 @@
 from .characters_routes import characters
 from .users_routes import users
 from .auth_routes import auth
+from .user_routes import user
