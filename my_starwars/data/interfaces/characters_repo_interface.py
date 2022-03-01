@@ -10,8 +10,8 @@ class CharacterRepoInterface(ABC):
     def insert_character(
         self,
         name: str,
-        height: float,
-        mass: float,
+        height: str,
+        mass: str,
         hair_color: str,
         skin_color: str,
         eye_color: str,
