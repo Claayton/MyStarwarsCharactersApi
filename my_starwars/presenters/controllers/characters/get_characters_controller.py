@@ -1,4 +1,4 @@
-"""Controllers para GetCharacter"""
+"""Controllers para GetCharacters"""
 from typing import Type, List
 from my_starwars.errors import HttpUnprocessableEntity, HttpBadRequestError
 from my_starwars.presenters.helpers import HttpRequest, HttpResponse
@@ -8,8 +8,8 @@ from my_starwars.domain.usecases import (
 )
 
 
-class GetCharacterController(ControllerInterface):
-    """Controller para o caso de uso GetCharacter"""
+class GetCharactersController(ControllerInterface):
+    """Controller para o caso de uso GetCharacters"""
 
     def __init__(self, usecase: Type[GetCharacter]) -> None:
         self.__usecase = usecase
@@ -17,39 +17,38 @@ class GetCharacterController(ControllerInterface):
     def handler(self, http_request: Type[HttpRequest]) -> HttpResponse:
         """Metodo para chamar o caso de uso"""
 
-        response = None
+        response = self.__usecase.all_characters()
 
-        if http_request.query:
+        if not response["data"]:
 
-            query_string_params = http_request.query.keys()
+            raise HttpBadRequestError(message="Nenhum personagem encontrado!")
 
-            if "id" in query_string_params:
+        formated_response = self.__format_response(response["data"])
 
-                character_id = http_request.query["id"]
-                response = self.__usecase.by_id(character_id=character_id)
-
-            elif "name" in query_string_params:
-
-                name = http_request.query["name"]
-                response = self.__usecase.by_name(name=name)
-
-            if response["success"] is False:
-                raise HttpUnprocessableEntity(
-                    message="Essa requisiçao necessita de um do query_parametros:\
-                    ('id': int, 'name': str)"
-                )
-
-            formated_response = self.__format_response(response)
-            return formated_response
-
-        raise HttpBadRequestError(
-            message="Essa requisiçao necessita de um do query_parametros:\
-            ('id': int, 'name': str)"
-        )
+        return formated_response
 
     @classmethod
-    def __format_response(cls, method_response: List) -> HttpResponse:
+    def __format_response(cls, response_method: list) -> HttpResponse:
+        """Formatando a resposta"""
 
-        response = method_response
+        full_response = []
 
-        return HttpResponse(status_code=200, body=response["data"])
+        for character in response_method:
+
+            full_response.append(
+                {
+                    "id": character.id,
+                    "name": character.name,
+                    "height": character.height,
+                    "mass": character.mass,
+                    "hair_color": character.hair_color,
+                    "skin_color": character.skin_color,
+                    "eye_color": character.eye_color,
+                    "birth_year": character.birth_year,
+                    "gender": character.gender,
+                }
+            )
+
+        response = {"message": "Usuarios encontrados!", "data": full_response}
+
+        return HttpResponse(status_code=200, body=response)
