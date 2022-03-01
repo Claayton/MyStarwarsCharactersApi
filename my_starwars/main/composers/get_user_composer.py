@@ -1,4 +1,4 @@
-"""Arquivo para montar o caso de uso getuser"""
+"""Arquivo para montar o caso de uso GetUser"""
 from my_starwars.infra.database.repo import UserRepo
 from my_starwars.data.users import GetUser
 from my_starwars.presenters.controllers.users import GetUserController
