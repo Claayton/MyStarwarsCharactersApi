@@ -54,8 +54,8 @@ def test_select_character_by_id():
 
     character_id = fake.random_number(digits=3)
     name = fake.name()
-    height = fake.random_number()
-    mass = fake.random_number()
+    height = str(fake.random_number())
+    mass = str(fake.random_number())
     hair_color = fake.word()
     skin_color = fake.word()
     eye_color = fake.word()
@@ -90,9 +90,9 @@ def test_select_character_by_id():
     assert character_repo.select_character_params["character_id"] == data.id
 
     # Testando as saidas
-    assert isinstance(select_character[0], Character)
-    assert select_character[0].name
-    assert select_character[0].height
+    assert isinstance(select_character, Character)
+    assert select_character.name
+    assert select_character.height
     engine.execute(f"DELETE FROM characters WHERE name='{name}';")
 
 
@@ -104,8 +104,8 @@ def test_select_character_by_name():
 
     character_id = fake.random_number(digits=3)
     name = fake.name()
-    height = fake.random_number()
-    mass = fake.random_number()
+    height = str(fake.random_number())
+    mass = str(fake.random_number())
     hair_color = fake.word()
     skin_color = fake.word()
     eye_color = fake.word()
@@ -140,9 +140,9 @@ def test_select_character_by_name():
     assert character_repo.select_character_params["name"] == data.name
 
     # Testando as saidas
-    assert isinstance(select_character[0], Character)
-    assert select_character[0].name
-    assert select_character[0].height
+    assert isinstance(select_character, Character)
+    assert select_character.name
+    assert select_character.height
     engine.execute(f"DELETE FROM characters WHERE name='{name}';")
 
 
@@ -154,8 +154,8 @@ def test_select_character_by_name_and_by_id():
 
     character_id = fake.random_number(digits=3)
     name = fake.name()
-    height = fake.random_number()
-    mass = fake.random_number()
+    height = str(fake.random_number())
+    mass = str(fake.random_number())
     hair_color = fake.word()
     skin_color = fake.word()
     eye_color = fake.word()
@@ -193,9 +193,9 @@ def test_select_character_by_name_and_by_id():
     assert character_repo.select_character_params["name"] == data.name
 
     # Testando as saidas
-    assert isinstance(select_character[0], Character)
-    assert select_character[0].name
-    assert select_character[0].height
+    assert isinstance(select_character, Character)
+    assert select_character.name
+    assert select_character.height
     engine.execute(f"DELETE FROM characters WHERE name='{name}';")
 
 
@@ -204,8 +204,8 @@ def test_select_all_characters():
 
     character_id = fake.random_number(digits=3)
     name = fake.name()
-    height = fake.random_number()
-    mass = fake.random_number()
+    height = str(fake.random_number())
+    mass = str(fake.random_number())
     hair_color = fake.word()
     skin_color = fake.word()
     eye_color = fake.word()
