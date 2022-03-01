@@ -1,6 +1,5 @@
 """Controllers para GetCharacters"""
-from typing import Type, List
-from my_starwars.errors import HttpUnprocessableEntity, HttpBadRequestError
+from typing import Type
 from my_starwars.presenters.helpers import HttpRequest, HttpResponse
 from my_starwars.presenters.interfaces import ControllerInterface
 from my_starwars.domain.usecases import (
@@ -18,10 +17,6 @@ class GetCharactersController(ControllerInterface):
         """Metodo para chamar o caso de uso"""
 
         response = self.__usecase.all_characters()
-
-        if not response["data"]:
-
-            raise HttpBadRequestError(message="Nenhum personagem encontrado!")
 
         formated_response = self.__format_response(response["data"])
 
