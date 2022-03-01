@@ -11,8 +11,8 @@ class Character(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String(100), nullable=False)
-    height = Column(Float)
-    mass = Column(Float)
+    height = Column(String)
+    mass = Column(String)
     hair_color = Column(String)
     skin_color = Column(String)
     eye_color = Column(String)

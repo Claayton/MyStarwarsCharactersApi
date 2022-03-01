@@ -1,8 +1,12 @@
 """Caso de uso: RegisterCharacters"""
 from typing import Type, Dict, List
+from my_starwars.domain.models import User
 from my_starwars.data.interfaces import CharacterRepoInterface
-from my_starwars.domain.usecases import RegisterCharacterInterface
-from my_starwars.domain.usecases import StarwarsCharactersColectorInterface
+from my_starwars.domain.usecases import (
+    StarwarsCharactersColectorInterface,
+    RegisterCharacterInterface,
+    GetCharacterInterface,
+)
 
 
 class RegisterCharacter(RegisterCharacterInterface):
@@ -14,9 +18,11 @@ class RegisterCharacter(RegisterCharacterInterface):
         self,
         colector: Type[StarwarsCharactersColectorInterface],
         character_repo: Type[CharacterRepoInterface],
+        get_character: Type[GetCharacterInterface],
     ) -> None:
         self.__colector = colector
         self.__character_repo = character_repo
+        self.__get_character = get_character
 
     def register_characters(self) -> Dict[bool, List[Dict]]:
         """
@@ -24,13 +30,31 @@ class RegisterCharacter(RegisterCharacterInterface):
         :return: Todos os personagens de starswars e suas principais caracteristicas.
         """
 
-        characters_data = self.__colector.starwars_characters_colector()["data"]
+        characters_colector_data = self.__colector.starwars_characters_colector()[
+            "data"
+        ]
+        characters_database = self.__get_character.all_characters()["data"]
+
+        if not characters_database:
+            characters_database.append(
+                User(
+                    id=777,
+                    name="Clayton",
+                    email="clayton#tests.com",
+                    password_hash="mudar321",
+                )
+            )
 
         response = []
 
         try:
 
-            for character in characters_data:
+            for character in characters_colector_data:
+
+                if character["name"] in (
+                    character_db.name for character_db in characters_database
+                ):
+                    continue
 
                 insertion = self.__character_repo.insert_character(
                     character["name"],
@@ -41,6 +65,14 @@ class RegisterCharacter(RegisterCharacterInterface):
                     character["eye_color"],
                     character["birth_year"],
                     character["gender"],
+                )
+                characters_database.append(
+                    User(
+                        id=777,
+                        name=character["name"],
+                        email="clayton#tests.com",
+                        password_hash="mudar321",
+                    )
                 )
                 response.append(
                     {

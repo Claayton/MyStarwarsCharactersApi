@@ -1,60 +1,31 @@
-"""Arquivo de rotas"""
-from fastapi import APIRouter, Request as RequestFastApi
+"""Arquivo de rotas de usuarios"""
+from fastapi import APIRouter, Depends, Request as RequestFastApi
 from fastapi.responses import JSONResponse
-from my_starwars.main.adapters import request_adapter
+from my_starwars.main.composers import get_users_composer
 from my_starwars.presenters.errors import handler_errors
-from my_starwars.main.composers import (
-    register_user_composer,
-    get_user_composer,
-    get_users_composer,
-)
-from my_starwars.validators import register_user_validator, get_user_validator
+from my_starwars.main.adapters import request_adapter
+from my_starwars.data.auth import Authorization
+from my_starwars.data.users import GetUser
+from my_starwars.infra.database.repo import UserRepo
+from my_starwars.config import CONNECTION_STRING
 
-users = APIRouter(prefix="/api/users")
+auth = Authorization(GetUser(UserRepo(CONNECTION_STRING)))
+
+users = APIRouter(prefix="/api/users", tags=["users"])
 
 
-@users.get("/all/")
+@users.get("/", dependencies=[Depends(auth.token_required)])
 async def get_users(request: RequestFastApi):
-    """Rota para buscar todos os usuarios registrados no sistema"""
+    """
+    Rota para buscar todos os usuarios registrados no sistema.
+
+    Requer token de acesso!
+    """
 
     response = None
 
     try:
         controller = get_users_composer()
-        response = await request_adapter(request, controller.handler)
-
-    except Exception as error:  # pylint: disable=W0703
-        response = handler_errors(error)
-
-    return JSONResponse(status_code=response.status_code, content=response.body)
-
-
-@users.get("/")
-async def get_user(request: RequestFastApi):
-    """Rota para buscar usuarios registrados no sistema"""
-
-    response = None
-
-    try:
-        await get_user_validator(request)
-        controller = get_user_composer()
-        response = await request_adapter(request, controller.handler)
-
-    except Exception as error:  # pylint: disable=W0703
-        response = handler_errors(error)
-
-    return JSONResponse(status_code=response.status_code, content=response.body)
-
-
-@users.post("/")
-async def register_user(request: RequestFastApi):
-    """Rota para registrar usuarios no sistema"""
-
-    response = None
-
-    try:
-        await register_user_validator(request)
-        controller = register_user_composer()
         response = await request_adapter(request, controller.handler)
 
     except Exception as error:  # pylint: disable=W0703

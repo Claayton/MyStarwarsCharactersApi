@@ -16,8 +16,8 @@ class CharacterRepoSpy(CharacterRepoInterface):
     def insert_character(
         self,
         name: str,
-        height: float,
-        mass: float,
+        height: str,
+        mass: str,
         hair_color: str,
         skin_color: str,
         eye_color: str,
@@ -49,8 +49,8 @@ class CharacterRepoSpy(CharacterRepoInterface):
         return Character(
             id=fake.random_number(),
             name=fake.name(),
-            height=fake.random_number(),
-            mass=fake.random_number(),
+            height=str(fake.random_number()),
+            mass=str(fake.random_number()),
             hair_color=fake.word(),
             skin_color=fake.word(),
             eye_color=fake.word(),
@@ -73,16 +73,28 @@ class CharacterRepoSpy(CharacterRepoInterface):
         self.select_character_params["character_id"] = character_id
         self.select_character_params["all_characters"] = all_characters
 
-        return [
-            Character(
-                id=fake.random_number(),
-                name=fake.name(),
-                height=fake.random_number(),
-                mass=fake.random_number(),
-                hair_color=fake.word(),
-                skin_color=fake.word(),
-                eye_color=fake.word(),
-                birth_year=fake.word(),
-                gender=fake.word(),
-            )
-        ]
+        if all_characters:
+            return [
+                Character(
+                    id=fake.random_number(),
+                    name=fake.name(),
+                    height=str(fake.random_number()),
+                    mass=str(fake.random_number()),
+                    hair_color=fake.word(),
+                    skin_color=fake.word(),
+                    eye_color=fake.word(),
+                    birth_year=fake.word(),
+                    gender=fake.word(),
+                )
+            ]
+        return Character(
+            id=fake.random_number(),
+            name=fake.name(),
+            height=str(fake.random_number()),
+            mass=str(fake.random_number()),
+            hair_color=fake.word(),
+            skin_color=fake.word(),
+            eye_color=fake.word(),
+            birth_year=fake.word(),
+            gender=fake.word(),
+        )
