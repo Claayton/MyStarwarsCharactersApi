@@ -228,4 +228,4 @@ def test_select_all_characters():
     assert isinstance(select_character, list)
     assert select_character[0].name
     assert select_character[0].hair_color
-    engine.execute(f"DELETE FROM users WHERE name='{name}';")
+    engine.execute(f"DELETE FROM characters WHERE name='{name}';")
