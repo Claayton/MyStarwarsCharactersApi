@@ -1,4 +1,5 @@
 """Diretorio de manipulaçao de dados para a tabela User"""
+from pydantic import ValidationError
 from sqlalchemy.orm.exc import NoResultFound
 from my_starwars.data.interfaces.users_repo_interface import UserRepoInterface
 from my_starwars.domain.models import User
@@ -101,3 +102,71 @@ class UserRepo(UserRepoInterface):
             raise error
         finally:
             data_base.session.close()
+
+    def update_user(
+        self,
+        user_id: int,
+        name: str = None,
+        email: str = None,
+        character_id: int = None,
+    ) -> User:
+        """
+        Realiza a atualização de dados de um usuario cadastrado na tabela User.
+        :param user_id: ID do usuario.
+        :param name: Nome do usuario.
+        :param email: Email do usuario.
+        :param character_id: ID do personagem favorito di usuario.
+        """
+
+        with DataBaseConnectionHandler(self.__connection_string) as data_base:
+
+            try:
+                try:
+                    user = (
+                        data_base.session.query(UserModel).filter_by(id=user_id).one()
+                    )
+
+                    if not user:
+                        raise Exception("usuario nao existe")
+
+                    name_exit = (
+                        data_base.session.query(UserModel).filter_by(name=name).one()
+                    )
+
+                    if name_exit and user.name != name:
+                        raise Exception("nome nao disponivel")
+
+                    email_exit = (
+                        data_base.session.query(UserModel).filter_by(email=email).one()
+                    )
+
+                    if email_exit and user.email != email:
+                        raise Exception("email nao disponivel")
+
+                except NoResultFound:
+                    pass
+                except Exception as error:
+                    raise error
+
+                if name:
+                    user.name = name
+
+                if email:
+                    user.email = email
+
+                if character_id:
+                    user.character_id = character_id
+
+                data_base.session.commit()
+
+                return User(
+                    id=user.id,
+                    name=user.name,
+                    email=user.email,
+                    password_hash=user.character_id,
+                )
+            except:
+                data_base.session.rollback()
+                raise
+            finally:
+                data_base.session.close()

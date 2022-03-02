@@ -23,3 +23,15 @@ class UserRepoInterface(ABC):
         """Deve ser implementado"""
 
         raise Exception("Must implement select_user")
+
+    @abstractmethod
+    def update_user(
+        self,
+        user_id: int,
+        name: str = None,
+        email: str = None,
+        character_id: int = None,
+    ) -> User:
+        """Deve ser implementado"""
+
+        raise Exception("Must implement update_user")
