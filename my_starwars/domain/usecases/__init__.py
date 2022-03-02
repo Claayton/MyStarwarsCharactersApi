@@ -7,3 +7,4 @@ from .authentication_interface import AuthenticationInterface
 from .authorization_interface import AuthorizationInterface
 from .register_character_interface import RegisterCharacterInterface
 from .get_characters_interface import GetCharacterInterface
+from .update_user_interface import UpdateUserInterface
