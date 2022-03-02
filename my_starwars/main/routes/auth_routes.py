@@ -6,12 +6,12 @@ from my_starwars.presenters.errors import handler_errors
 from my_starwars.main.composers import authentication_composer
 from my_starwars.validators import authentication_validator
 
-auth = APIRouter(prefix="/api/auth")
+auth = APIRouter(prefix="/api/auth", tags=["authentication"])
 
 
 @auth.post("/")
 async def authentication(request: RequestFastApi):
-    """Rota para autenticar usuarios registrados no sistema"""
+    """Rota para autenticar usuarios registrados no sistema."""
 
     response = None
 
