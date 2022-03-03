@@ -1,5 +1,4 @@
 """Testes para a classe UserRepo"""
-from string import digits
 from faker import Faker
 from my_starwars.infra.database.config import DataBaseConnectionHandler
 from my_starwars.infra.database.entities import User as UserModel
@@ -47,8 +46,15 @@ def test_select_user_by_id():
     name = fake.name()
     email = f"{fake.word()}@gmail.com"
     password_hash = fake.word()
+    character_id = fake.random_number(digits=1)
 
-    data = User(id=user_id, name=name, email=email, password_hash=password_hash)
+    data = User(
+        id=user_id,
+        name=name,
+        email=email,
+        password_hash=password_hash,
+        character_id=character_id,
+    )
 
     engine = data_base_connection_handler.get_engine()
     engine.execute(
@@ -74,8 +80,15 @@ def test_select_user_by_name():
     name = fake.name()
     email = f"{fake.word()}@gmail.com"
     password_hash = fake.word()
+    character_id = fake.random_number(digits=1)
 
-    data = User(id=user_id, name=name, email=email, password_hash=password_hash)
+    data = User(
+        id=user_id,
+        name=name,
+        email=email,
+        password_hash=password_hash,
+        character_id=character_id,
+    )
 
     engine = data_base_connection_handler.get_engine()
     engine.execute(
@@ -101,8 +114,15 @@ def test_select_user_by_name_and_by_id():
     name = fake.name()
     email = f"{fake.word()}@gmail.com"
     password_hash = fake.word()
+    character_id = fake.random_number(digits=1)
 
-    data = User(id=user_id, name=name, email=email, password_hash=password_hash)
+    data = User(
+        id=user_id,
+        name=name,
+        email=email,
+        password_hash=password_hash,
+        character_id=character_id,
+    )
 
     engine = data_base_connection_handler.get_engine()
     engine.execute(
@@ -125,8 +145,15 @@ def test_select_all_users():
     name = fake.name()
     email = f"{fake.word()}@gmail.com"
     password_hash = fake.word()
+    character_id = fake.random_number(digits=1)
 
-    data = User(id=user_id, name=name, email=email, password_hash=password_hash)
+    data = User(
+        id=user_id,
+        name=name,
+        email=email,
+        password_hash=password_hash,
+        character_id=character_id,
+    )
 
     engine = data_base_connection_handler.get_engine()
     engine.execute(

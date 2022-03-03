@@ -36,6 +36,7 @@ class UserRepo(UserRepoInterface):
                     name=new_user.name,
                     email=new_user.email,
                     password_hash=new_user.password_hash,
+                    character_id=new_user.character_id,
                 )
             except:
                 data_base.session.rollback()
@@ -164,6 +165,7 @@ class UserRepo(UserRepoInterface):
                     name=user.name,
                     email=user.email,
                     password_hash=user.character_id,
+                    character_id=user.character_id,
                 )
             except:
                 data_base.session.rollback()
