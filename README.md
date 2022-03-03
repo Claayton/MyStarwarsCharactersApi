@@ -18,12 +18,12 @@ API de request para API externa do StarWars para cadastrar seu personagem favori
 
 [#Pular essa babozeira e rodar logo o projeto.](install.md)
 
-O projeto foi desenvolvido em um sistema operacional linux mint 20.03, essas instruções devem funcionar na maioria dos casos, mas pode ter alguma diferença dependendo do sistema.
+O projeto foi desenvolvido em um sistema operacional `linux mint 20.03`, essas instruções devem funcionar na maioria dos casos, mas pode ter alguma diferença dependendo do sistema.
 
-Uma das ferramentas exenciais para rodar o programa é o git, mas você provavelmente já tem ele na tua maquina.
-Outro detalhe importando é que estou utilizando a versão mais recente do python no momento, a versão 3.10.2, e é recomendado que utilize a mesma versão para evitar problemas, mas provavelmente deve funcionar em qualquer versão acima da 3.8. 
+Uma das ferramentas exenciais para rodar o programa é o `git`, mas você provavelmente já tem ele na tua maquina.
+Outro detalhe importando é que estou utilizando a versão mais recente do python no momento, a `versão 3.10.2`, e é recomendado que utilize a mesma versão para evitar problemas, mas provavelmente deve funcionar em qualquer versão acima da 3.8. 
 
-Eu utilizei pyenv para instalar na minha maquina, mas vocẽ pode utilizar o [site oficial](https://www.python.org/downloads/) se preferir.
+Eu utilizei `pyenv` para instalar na minha maquina, mas vocẽ pode utilizar o [site oficial](https://www.python.org/downloads/) se preferir.
 
 ### __Ambiente virtual__
 
@@ -31,7 +31,7 @@ Eu utilizei pyenv para instalar na minha maquina, mas vocẽ pode utilizar o [si
 ```
  sudo pip3 install virtualenv
 ```
-Agora configure seu ambiente virtual para evitar possiveis conflitos:
+Agora configure seu `ambiente virtual` para evitar possiveis conflitos:
 ```
 python3 -m venv venv 
 ```
@@ -43,14 +43,18 @@ source venv/bin/activate
 ```
 pip3 install -r requirements.txt
 ```
-*Você vai precisar de um arquivo para **alocar suas variáveis de ambiente**, use o comando abaixo para criá-lo e exportar as variáveis (Você pode/deve substituir a secret_key por uma de sua escolha, mas para teste não vai fazer diferença):*
+*Você vai precisar de um arquivo para **alocar suas variáveis de ambiente**, use o comando abaixo para criá-lo e exportar as variáveis (Você pode/deve substituir a `secret_key` por uma de sua escolha, mas para teste não vai fazer diferença):*
 ```
-Aqui vão as variaveis, ainda nao configurei isso...
-secret_key=aquivoceescreveumachavesupersecreta" > .env
+echo "SEARCH_URL=https://swapi.dev/api/people/
+CONNECTION_STRING=sqlite:///storage.db
+CONNECTION_STRING_TEST=sqlite:///storage_test.db
+SECRET_KEY=mecontratapiazada123" > .env
 ```
-
 
 *O projeto ja está configurado e pronto para ser testado em modo de desenvolvedor:*
+```
+python3 run.py
+```
 
 ## Tests
 
