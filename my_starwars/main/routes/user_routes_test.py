@@ -215,3 +215,200 @@ def test_register_user_error400_without_body_params():
 
     assert response.status_code == 400
     assert "error" in response.json()
+
+
+def test_update_user_with_user_id_name_and_email_and_character_id_params():
+    """
+    Testando a rota update_user com valores validos para todos os parametros.
+    """
+
+    url = "/api/user/"
+    data = {
+        "user_id": fake.random_number(digits=1),
+        "name": fake.name(),
+        "email": f"{fake.word()}@test.com",
+        "character_id": fake.random_number(digits=1),
+    }
+
+    user_id = data["user_id"]
+    name = fake.name()
+    email = f"{fake.word()}@test.com"
+    password = fake.word()
+
+    engine = data_base_connection_handler.get_engine()
+    engine.execute(
+        f"INSERT INTO users (id, name, email, password_hash)\
+            VALUES ('{user_id}', '{name}', '{email}', '{password}');"
+    )
+
+    response = client.put(url=url, json=data)
+
+    assert response.status_code == 201
+    assert isinstance(response.json(), dict)
+    assert response.json()["message"] is not None
+    assert isinstance(response.json()["data"], dict)
+    assert "name" in response.json()["data"]
+    assert "email" in response.json()["data"]
+    assert "password" in response.json()["data"]
+
+    name = data["name"]
+    engine.execute(f"DELETE FROM users WHERE name='{name}';")
+
+
+def test_update_user_with_only_user_id_and_name_params():
+    """
+    Testando a rota update_user.
+    Com valores validos apenas para os parametros user_id e name.
+    """
+
+    url = "/api/user/"
+    data = {"user_id": fake.random_number(digits=1), "name": fake.name()}
+
+    user_id = data["user_id"]
+    name = fake.name()
+    email = f"{fake.word()}@test.com"
+    password = fake.word()
+
+    engine = data_base_connection_handler.get_engine()
+    engine.execute(
+        f"INSERT INTO users (id, name, email, password_hash)\
+            VALUES ('{user_id}', '{name}', '{email}', '{password}');"
+    )
+
+    response = client.put(url=url, json=data)
+
+    assert response.status_code == 201
+    assert isinstance(response.json(), dict)
+    assert response.json()["message"] is not None
+    assert isinstance(response.json()["data"], dict)
+    assert "name" in response.json()["data"]
+    assert "email" in response.json()["data"]
+    assert "password" in response.json()["data"]
+
+    name = data["name"]
+    engine.execute(f"DELETE FROM users WHERE name='{name}';")
+
+
+def test_update_user_with_only_user_id_and_email_params():
+    """
+    Testando a rota update_user.
+    Com valores validos apenas para os parametros user_id e email.
+    """
+
+    url = "/api/user/"
+    data = {"user_id": fake.random_number(digits=1), "email": f"{fake.word()}@test.com"}
+
+    user_id = data["user_id"]
+    name = fake.name()
+    email = f"{fake.word()}@test.com"
+    password = fake.word()
+
+    engine = data_base_connection_handler.get_engine()
+    engine.execute(
+        f"INSERT INTO users (id, name, email, password_hash)\
+            VALUES ('{user_id}', '{name}', '{email}', '{password}');"
+    )
+
+    response = client.put(url=url, json=data)
+
+    assert response.status_code == 201
+    assert isinstance(response.json(), dict)
+    assert response.json()["message"] is not None
+    assert isinstance(response.json()["data"], dict)
+    assert "name" in response.json()["data"]
+    assert "email" in response.json()["data"]
+    assert "password" in response.json()["data"]
+
+    engine.execute(f"DELETE FROM users WHERE name='{name}';")
+
+
+def test_update_user_with_only_user_id_and_character_id_params():
+    """
+    Testando a rota update_user.
+    Com valores validos apenas para os parametros user_id e character_id.
+    """
+
+    url = "/api/user/"
+    data = {
+        "user_id": fake.random_number(digits=1),
+        "character_id": fake.random_number(digits=1),
+    }
+
+    user_id = data["user_id"]
+    name = fake.name()
+    email = f"{fake.word()}@test.com"
+    password = fake.word()
+
+    engine = data_base_connection_handler.get_engine()
+    engine.execute(
+        f"INSERT INTO users (id, name, email, password_hash)\
+            VALUES ('{user_id}', '{name}', '{email}', '{password}');"
+    )
+
+    response = client.put(url=url, json=data)
+
+    assert response.status_code == 201
+    assert isinstance(response.json(), dict)
+    assert response.json()["message"] is not None
+    assert isinstance(response.json()["data"], dict)
+    assert "name" in response.json()["data"]
+    assert "email" in response.json()["data"]
+    assert "password" in response.json()["data"]
+
+    engine.execute(f"DELETE FROM users WHERE name='{name}';")
+
+
+def test_update_user_error400_with_only_user_id_param():
+    """
+    Testando a rota update_user.
+    Com apenas um valor valido para o parametro user_id.
+    """
+
+    url = "/api/user/"
+    data = {"user_id": fake.random_number(digits=1)}
+
+    user_id = data["user_id"]
+    name = fake.name()
+    email = f"{fake.word()}@test.com"
+    password = fake.word()
+
+    engine = data_base_connection_handler.get_engine()
+    engine.execute(
+        f"INSERT INTO users (id, name, email, password_hash)\
+            VALUES ('{user_id}', '{name}', '{email}', '{password}');"
+    )
+
+    response = client.put(url=url, json=data)
+
+    assert response.status_code == 422
+    assert "error" in response.json()
+
+    engine.execute(f"DELETE FROM users WHERE name='{name}';")
+
+
+def test_update_user_error400_without_params():
+    """
+    Testando a rota update_user.
+    Com apenas um valor valido para o parametro user_id.
+    """
+
+    url = "/api/user/"
+    data = {}
+
+    user_id = fake.random_number()
+    name = fake.name()
+    email = f"{fake.word()}@test.com"
+    password = fake.word()
+
+    engine = data_base_connection_handler.get_engine()
+    engine.execute(
+        f"INSERT INTO users (id, name, email, password_hash)\
+            VALUES ('{user_id}', '{name}', '{email}', '{password}');"
+    )
+
+    response = client.put(url=url, json=data)
+
+    assert response.status_code == 422
+    assert "error" in response.json()
+
+    engine.execute(f"DELETE FROM users WHERE name='{name}';")
