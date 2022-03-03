@@ -36,9 +36,7 @@ async def get_starwars_characters_external(request: RequestFastApi):
 
         response = handler_errors(error)
 
-    return JSONResponse(
-        status_code=response.status_code, content={"data": response.body}
-    )
+    return JSONResponse(status_code=response.status_code, content=response.body)
 
 
 @characters.get("/", dependencies=[Depends(auth.token_required)])
@@ -79,6 +77,4 @@ async def register_starwars_characters(request: RequestFastApi):
     except Exception as error:  # pylint: disable=W0703
         response = handler_errors(error)
 
-    return JSONResponse(
-        status_code=response.status_code, content={"data": response.body}
-    )
+    return JSONResponse(status_code=response.status_code, content=response.body)

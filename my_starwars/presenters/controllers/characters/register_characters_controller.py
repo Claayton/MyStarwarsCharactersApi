@@ -18,4 +18,20 @@ class RegisterCharacterController(ControllerInterface):
 
         response = self.__usecase.register_characters()
 
-        return HttpResponse(status_code=201, body=response["data"])
+        if not response["data"]:
+
+            return HttpResponse(
+                status_code=201,
+                body={
+                    "message": "Todos os personagens ja estao cadastrados!",
+                    "data": response["data"],
+                },
+            )
+
+        return HttpResponse(
+            status_code=201,
+            body={
+                "message": "Personagens registrados com successo!",
+                "data": response["data"],
+            },
+        )
