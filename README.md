@@ -16,7 +16,7 @@ API de request para API externa do StarWars para cadastrar seu personagem favori
 
 ### **📋 Pré-requisitos**:
 
-[#Pular essa babozeira e rodar logo o projeto.](install.md)
+[#Pular essa babozeira e rodar logo o projeto.](install.sh)
 
 O projeto foi desenvolvido em um sistema operacional `linux mint 20.03`, essas instruções devem funcionar na maioria dos casos, mas pode ter alguma diferença dependendo do sistema.
 
