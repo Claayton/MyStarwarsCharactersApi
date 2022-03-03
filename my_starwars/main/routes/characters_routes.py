@@ -1,6 +1,10 @@
 """Arquivo de rotas de personagens de starwars"""
-from fastapi import APIRouter, Request as RequestFastApi
+from fastapi import APIRouter, Request as RequestFastApi, Depends
 from fastapi.responses import JSONResponse
+from my_starwars.data.users import GetUser
+from my_starwars.infra.database.repo import UserRepo
+from my_starwars.data.auth import Authorization
+from my_starwars.config import CONNECTION_STRING
 from my_starwars.main.adapters import request_adapter
 from my_starwars.presenters.errors import handler_errors
 from my_starwars.main.composers import (
@@ -9,10 +13,12 @@ from my_starwars.main.composers import (
     get_character_composer,
 )
 
+auth = Authorization(GetUser(UserRepo(CONNECTION_STRING)))
+
 characters = APIRouter(prefix="/api/characters", tags=["characters"])
 
 
-@characters.get("/external/")
+@characters.get("/external/", dependencies=[Depends(auth.token_required)])
 async def get_starwars_characters_external(request: RequestFastApi):
     """
     Rota para buscar os personagens de starwars,
@@ -35,7 +41,7 @@ async def get_starwars_characters_external(request: RequestFastApi):
     )
 
 
-@characters.get("/")
+@characters.get("/", dependencies=[Depends(auth.token_required)])
 async def get_starwars_characters(request: RequestFastApi):
     """
     Rota para buscar os personagens de starwars,
@@ -55,7 +61,7 @@ async def get_starwars_characters(request: RequestFastApi):
     return JSONResponse(status_code=response.status_code, content=response.body)
 
 
-@characters.post("/")
+@characters.post("/", dependencies=[Depends(auth.token_required)])
 async def register_starwars_characters(request: RequestFastApi):
     """
     Rota para registrar os personagens de starwars,
