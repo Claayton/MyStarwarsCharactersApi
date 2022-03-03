@@ -25,15 +25,13 @@ class UpdateUser(UpdateUserInterface):
 
         response = None
 
-        validate_entry = (
-            isinstance(user_id, int)
-            and isinstance(name, str)
-            and isinstance(email, str)
-            and isinstance(character_id, int)
+        validate_entry = isinstance(user_id, int) and (
+            isinstance(name, str)
+            or isinstance(email, str)
+            or isinstance(character_id, int)
         )
 
         if validate_entry:
-
             response = self.__user_repo.update_user(
                 user_id=user_id, name=name, email=email, character_id=character_id
             )
