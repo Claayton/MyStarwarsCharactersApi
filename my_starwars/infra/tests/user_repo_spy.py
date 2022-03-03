@@ -12,6 +12,8 @@ class UserRepoSpy(UserRepoInterface):
     def __init__(self) -> None:
         self.insert_user_params = {}
         self.select_user_params = {}
+        self.before_update_user_params = {}
+        self.updated_user_params = {}
 
     def insert_user(self, name: str, email: str, password_hash: str) -> User:
         """
@@ -31,6 +33,7 @@ class UserRepoSpy(UserRepoInterface):
             name=fake.name(),
             email=f"{name}@mock.com",
             password_hash="$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK",
+            character_id=fake.random_number(digits=3),
         )
 
     def select_user(
@@ -61,7 +64,8 @@ class UserRepoSpy(UserRepoInterface):
                     id=fake.random_number(digits=3),
                     name=fake.name(),
                     email=f"{name}@mock.com",
-                    password_hash=b"$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK",
+                    password_hash="$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK",
+                    character_id=fake.random_number(digits=3),
                 )
             ]
 
@@ -70,4 +74,39 @@ class UserRepoSpy(UserRepoInterface):
             name=fake.name(),
             email=f"{name}@mock.com",
             password_hash="$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK",
+            character_id=fake.random_number(digits=3),
+        )
+
+    def update_user(
+        self,
+        user_id: int,
+        name: str = None,
+        email: str = None,
+        character_id: int = None,
+    ) -> User:
+        """
+        Classe responsavel por realizar a atualização dos dados de um usuário cadastrado no sistema.
+        :param user_id: ID do usuario.
+        :param name: Nome do usuario.
+        :param email: Email do usuario.
+        :param character_id: ID do personagem favorito do usuário.
+        :return: Uma mensagem de sucesso e um usuario.
+        """
+
+        self.updated_user_params["user_id"] = user_id
+        self.updated_user_params["name"] = name
+        self.updated_user_params["email"] = email
+        self.updated_user_params["character_id"] = character_id
+
+        self.before_update_user_params["user_id"] = fake.random_number(digits=3)
+        self.before_update_user_params["name"] = fake.name()
+        self.before_update_user_params["email"] = f"{fake.word()}@mock.com"
+        self.before_update_user_params["character_id"] = fake.random_number(digits=3)
+
+        return User(
+            id=self.before_update_user_params["user_id"],
+            name=self.before_update_user_params["name"],
+            email=self.before_update_user_params["email"],
+            password_hash="$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK",
+            character_id=self.before_update_user_params["character_id"],
         )
