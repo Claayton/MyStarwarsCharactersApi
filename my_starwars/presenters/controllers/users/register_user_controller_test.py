@@ -1,4 +1,4 @@
-"""Testes para RegisteruserController"""
+"""Testes para RegisterUserController"""
 from faker import Faker
 from my_starwars.presenters.helpers import HttpRequest
 from my_starwars.data.users import RegisterUser, HashPassword

@@ -1,5 +1,4 @@
 """Diretorio de manipulaçao de dados para a tabela User"""
-from pydantic import ValidationError
 from sqlalchemy.orm.exc import NoResultFound
 from my_starwars.data.interfaces.users_repo_interface import UserRepoInterface
 from my_starwars.domain.models import User
