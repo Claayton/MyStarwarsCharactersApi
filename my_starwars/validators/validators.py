@@ -55,6 +55,33 @@ async def get_user_validator(request: any) -> bool:
         raise HttpUnprocessableEntity(message=query_params_validator.errors)
 
 
+async def update_user_validator(request: any) -> bool:
+    """Validador para UpdateUser"""
+
+    try:
+        body = await request.json()
+    except Exception as error:
+        raise HttpBadRequestError(
+            message="Esta requisiçao necessita dos parametros:\
+'user_id' + um dos seguintes: 'name', 'email', 'character_id'"
+        ) from error
+
+    body_params_validator = Validator(
+        {
+            "user_id": {"type": "integer", "required": True},
+            "name": {"type": "string", "required": False},
+            "email": {"type": "string", "required": False},
+            "character_id": {"type": "integer", "required": False},
+        }
+    )
+
+    response = body_params_validator.validate(body)
+
+    if response is False:
+
+        raise HttpUnprocessableEntity(message=body_params_validator.errors)
+
+
 async def authentication_validator(request: any) -> bool:
     """Validador para Authentication"""
 

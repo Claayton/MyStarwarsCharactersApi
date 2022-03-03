@@ -42,6 +42,7 @@ class RegisterCharacter(RegisterCharacterInterface):
                     name="Clayton",
                     email="clayton#tests.com",
                     password_hash="mudar321",
+                    character_id=777,
                 )
             )
 
@@ -72,6 +73,7 @@ class RegisterCharacter(RegisterCharacterInterface):
                         name=character["name"],
                         email="clayton#tests.com",
                         password_hash="mudar321",
+                        character_id=777,
                     )
                 )
                 response.append(

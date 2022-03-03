@@ -6,3 +6,4 @@ from .get_users_composer import get_users_composer
 from .authentication_composer import authentication_composer
 from .register_character_composer import register_character_composer
 from .get_character_composer import get_character_composer
+from .update_user_composer import update_user_composer

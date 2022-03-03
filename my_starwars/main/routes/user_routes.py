@@ -1,14 +1,22 @@
 """Arquivo de rotas de usuario"""
 from fastapi import APIRouter, Depends, Request as RequestFastApi
 from fastapi.responses import JSONResponse
-from my_starwars.validators import register_user_validator, get_user_validator
+from my_starwars.validators import (
+    register_user_validator,
+    get_user_validator,
+    update_user_validator,
+)
 from my_starwars.main.adapters import request_adapter
 from my_starwars.presenters.errors import handler_errors
 from my_starwars.data.auth import Authorization
 from my_starwars.data.users import GetUser
 from my_starwars.infra.database.repo import UserRepo
 from my_starwars.config import CONNECTION_STRING
-from my_starwars.main.composers import register_user_composer, get_user_composer
+from my_starwars.main.composers import (
+    register_user_composer,
+    get_user_composer,
+    update_user_composer,
+)
 
 auth = Authorization(GetUser(UserRepo(CONNECTION_STRING)))
 
@@ -53,6 +61,28 @@ async def register_user(request: RequestFastApi):
     try:
         await register_user_validator(request)
         controller = register_user_composer()
+        response = await request_adapter(request, controller.handler)
+
+    except Exception as error:  # pylint: disable=W0703
+        response = handler_errors(error)
+
+    return JSONResponse(status_code=response.status_code, content=response.body)
+
+
+@user.put("/")
+async def update_user(request: RequestFastApi):
+    """
+    Rota para dados de um usuario ja registrado no sistema.
+
+    Deve receber os body-parameters 'user_id' + um dos seguintes:
+    ('name: str', 'email: str', 'character_id: int').
+    """
+
+    response = None
+
+    try:
+        await update_user_validator(request)
+        controller = update_user_composer()
         response = await request_adapter(request, controller.handler)
 
     except Exception as error:  # pylint: disable=W0703
