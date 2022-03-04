@@ -7,7 +7,9 @@ class UserRepoInterface(ABC):
     """Interface para a classe UserRepo"""
 
     @abstractmethod
-    def insert_user(self, name: str, email: str, password_hash: str) -> User:
+    def insert_user(
+        self, name: str, email: str, password_hash: str, character_id: int = None
+    ) -> User:
         """Deve ser implementado"""
 
         raise Exception("Must implement insert_user")

@@ -17,11 +17,12 @@ def test_insert_user():
     name = fake.name()
     email = f"{fake.word()}@gmail.com"
     password_hash = fake.word()
+    character_id = fake.random_number(digits=1)
 
     engine = data_base_connection_handler.get_engine()
 
     new_user = user_repo.insert_user(
-        name=name, email=email, password_hash=password_hash
+        name=name, email=email, password_hash=password_hash, character_id=character_id
     )
 
     query_user = engine.execute(

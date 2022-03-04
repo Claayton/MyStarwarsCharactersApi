@@ -15,18 +15,22 @@ class UserRepoSpy(UserRepoInterface):
         self.before_update_user_params = {}
         self.updated_user_params = {}
 
-    def insert_user(self, name: str, email: str, password_hash: str) -> User:
+    def insert_user(
+        self, name: str, email: str, password_hash: str, character_id: int = None
+    ) -> User:
         """
         Realiza a inserçao de um novo usuario na tabela User.
         :param name: Nome do usuario.
         :param email: Email do usuario.
         :param password_hash: Hash da senha do usuario.
+        :param character_id: ID do personagem favorito do usuario.
         :return: Uma tupla nomeada com todos os dados do usuario cadastrado.
         """
 
         self.insert_user_params["name"] = name
         self.insert_user_params["email"] = email
         self.insert_user_params["password_hash"] = password_hash
+        self.insert_user_params["character_id"] = character_id
 
         return User(
             id=fake.random_number(digits=3),

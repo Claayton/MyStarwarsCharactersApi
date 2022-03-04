@@ -19,6 +19,7 @@ async def register_user_validator(request: any) -> bool:
             "name": {"type": "string", "required": True},
             "email": {"type": "string", "required": True},
             "password": {"type": ["string", "integer"], "required": True},
+            "character_id": {"type": "integer", "required": False},
         }
     )
 
