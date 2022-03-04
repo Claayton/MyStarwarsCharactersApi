@@ -107,7 +107,18 @@ response:
     "data": {
         "id": 1,
         "name": "clayton",
-        "email": "clayton@trampolim.com",
+        "email": "clayton@test.com",
+        "favorite starwars character": {
+            "id": 1,
+            "name": "Luke Skywalker",
+            "height": "172",
+            "mass": "77",
+            "hair_color": "blond",
+            "skin_color": "fair",
+            "eye_color": "blue",
+            "birth_year": "19BBY",
+            "gender": "male"
+        },
         "password": "Não mostramos isso aqui!"
     }
 }
@@ -145,8 +156,18 @@ response:
     "data": {
         "id": 1,
         "name": "clayton",
-        "email": "clayton@trampolim.com",
-        "character_id": 7,
+        "email": "clayton@test.com",
+        "favorite starwars character": {
+            "id": 2,
+            "name": "C-3PO",
+            "height": "167",
+            "mass": "75",
+            "hair_color": "n/a",
+            "skin_color": "gold",
+            "eye_color": "yellow",
+            "birth_year": "112BBY",
+            "gender": "n/a"
+        },
         "password": "Não mostramos isso aqui!"
     }
 }
@@ -189,7 +210,18 @@ __Respostas:__
     "data": {
         "id": 1,
         "name": "clayton",
-        "email": "clayton@trampolim.com",
+        "email": "clayton@test.com",
+        "favorite starwars character": {
+            "id": 2,
+            "name": "C-3PO",
+            "height": "167",
+            "mass": "75",
+            "hair_color": "n/a",
+            "skin_color": "gold",
+            "eye_color": "yellow",
+            "birth_year": "112BBY",
+            "gender": "n/a"
+        },
         "password": "Não mostramos isso aqui!"
     }
 }
@@ -233,7 +265,35 @@ response:
         {
             "id": 1,
             "name": "clayton",
-            "email": "clayton@trampolim.com",
+            "email": "clayton@test.com",
+            "favorite starwars character": {
+                "id": 2,
+                "name": "C-3PO",
+                "height": "167",
+                "mass": "75",
+                "hair_color": "n/a",
+                "skin_color": "gold",
+                "eye_color": "yellow",
+                "birth_year": "112BBY",
+                "gender": "n/a"
+            },
+            "password": "Não mostramos isso aqui!"
+        },
+        {
+            "id": 2,
+            "name": "theo",
+            "email": "thzera@test.com",
+            "favorite starwars character": {
+                "id": 3,
+                "name": "R2-D2",
+                "height": "96",
+                "mass": "32",
+                "hair_color": "n/a",
+                "skin_color": "white, blue",
+                "eye_color": "red",
+                "birth_year": "33BBY",
+                "gender": "n/a"
+            },
             "password": "Não mostramos isso aqui!"
         }
     ]
@@ -272,13 +332,24 @@ response:
 {
     "message": "Login efetuado com successo!",
     "data": {
-        "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NDYzOTI1NjksImlhdCI6MTY0NjM0OTM2OSwiZW1haWwiOiJjbGF5dG9uQHRyYW1wb2xpbS5jb20iLCJuYW1lIjoiY2xheXRvbiJ9.o8JSxkEuObeNsp0CwfcO3OGUEpJB2ZJsze7oGHlXtEQ",
-        "exp": "2022-03-04 11:16:09.223700",
+        "Authorization": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NDY0MDkzNzEsImlhdCI6MTY0NjM2NjE3MSwiZW1haWwiOiJjbGF5dG9uQHRlc3QuY29tIiwibmFtZSI6ImNsYXl0b24iLCJjaGFyYWN0ZXJfaWQiOjJ9.OBx2ahlQSQeS1_cXaOEpCrfdeHUv9jZRW7XvxJCiObM",
+        "exp": "2022-03-04 15:56:11.539413",
         "id": 1,
         "user": {
             "id": 1,
             "name": "clayton",
-            "email": "clayton@trampolim.com"
+            "email": "clayton@test.com",
+            "favorite starwars character": {
+                "id": 2,
+                "name": "C-3PO",
+                "height": "167",
+                "mass": "75",
+                "hair_color": "n/a",
+                "skin_color": "gold",
+                "eye_color": "yellow",
+                "birth_year": "112BBY",
+                "gender": "n/a"
+            }
         }
     }
 }
