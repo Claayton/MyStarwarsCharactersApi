@@ -358,7 +358,7 @@ def test_update_user_with_only_user_id_and_character_id_params():
     engine.execute(f"DELETE FROM users WHERE name='{name}';")
 
 
-def test_update_user_error400_with_only_user_id_param():
+def test_update_user_error422_with_only_user_id_param():
     """
     Testando a rota update_user.
     Com apenas um valor valido para o parametro user_id.

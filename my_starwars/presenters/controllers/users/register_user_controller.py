@@ -40,7 +40,7 @@ class RegisterUserController(ControllerInterface):
 
         raise HttpBadRequestError(
             message="Esta rota necessita dos seguintes parametros:\
-                'name: str', 'email: str', 'password: str'"
+'name: str', 'email: str', 'password: str'"
         )
 
     @classmethod

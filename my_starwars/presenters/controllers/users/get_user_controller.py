@@ -1,7 +1,7 @@
 """Controllers para GetUser"""
 from typing import Type
 from my_starwars.domain.models import User
-from my_starwars.errors import HttpBadRequestError
+from my_starwars.errors import HttpBadRequestError, HttpNotFound
 from my_starwars.presenters.helpers import HttpRequest, HttpResponse
 from my_starwars.domain.usecases import GetUserInterface
 from my_starwars.presenters.interfaces import ControllerInterface
@@ -43,9 +43,8 @@ class GetUserController(ControllerInterface):
 
             if not response["data"]:
 
-                raise HttpBadRequestError(
-                    message="Essa requisiçao exige um dos seguintes parametros:\
-                    'user_id: int', 'name: str', 'email: str'"
+                raise HttpNotFound(
+                    message="Nenhum usuario com os requisitos dos parametros encontrado!"
                 )
 
             formated_response = self.__format_response(response["data"])
@@ -53,8 +52,8 @@ class GetUserController(ControllerInterface):
             return formated_response
 
         raise HttpBadRequestError(
-            message="Essa requisiçao exige um dos seguintes parametros:\
-            'user_id: int', 'name: str', 'email: str'"
+            message="Essa requisiçao exige um dos seguintes parametros: \
+'user_id: int', 'name: str', 'email: str'"
         )
 
     @classmethod

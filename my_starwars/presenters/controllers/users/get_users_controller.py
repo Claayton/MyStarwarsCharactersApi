@@ -1,6 +1,6 @@
 """Controllers para GetUsers"""
 from typing import Type
-from my_starwars.errors import HttpBadRequestError
+from my_starwars.errors import HttpNotFound
 from my_starwars.presenters.helpers import HttpRequest, HttpResponse
 from my_starwars.domain.usecases import GetUserInterface
 from my_starwars.presenters.interfaces import ControllerInterface
@@ -19,7 +19,7 @@ class GetUsersController(ControllerInterface):
 
         if not response["data"]:
 
-            raise HttpBadRequestError(message="Nenhum usuario encontrado!")
+            raise HttpNotFound(message="Nenhum usuario encontrado!")
 
         formated_response = self.__format_response(response["data"])
 

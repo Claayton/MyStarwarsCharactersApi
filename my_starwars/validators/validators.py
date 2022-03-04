@@ -11,7 +11,7 @@ async def register_user_validator(request: any) -> bool:
     except Exception as error:
         raise HttpBadRequestError(
             message="Esta requisiçao necessita dos parametros:\
-            'name', 'email', 'password'"
+'name', 'email', 'password'"
         ) from error
 
     body_params_validator = Validator(
@@ -89,8 +89,7 @@ async def authentication_validator(request: any) -> bool:
         body = await request.json()
     except Exception as error:
         raise HttpBadRequestError(
-            message="Esta requisiçao necessita dos parametros:\
-            'email', 'password'"
+            message="Esta requisiçao necessita dos parametros: 'email', 'password'"
         ) from error
 
     body_params_validator = Validator(
