@@ -4,7 +4,7 @@ from my_starwars.presenters.helpers import HttpRequest
 from my_starwars.data.tests import HashPasswordSpy
 from my_starwars.data.users import GetUser
 from my_starwars.data.auth import Authentication
-from my_starwars.infra.tests import UserRepoSpy
+from my_starwars.infra.tests import UserRepoSpy, CharacterRepoSpy
 from .authentication_controller import AuthenticationController
 
 fake = Faker()
@@ -14,10 +14,11 @@ def test_handler():
     """Testando o metodo handler"""
 
     infra = UserRepoSpy()
+    character_repo = CharacterRepoSpy()
     get_user = GetUser(infra)
     hash_password = HashPasswordSpy()
     usecase = Authentication(get_user, hash_password)
-    controller = AuthenticationController(usecase)
+    controller = AuthenticationController(usecase, character_repo)
 
     attributes = {"email": f"{fake.name()}@test.com", "password": fake.word()}
 
