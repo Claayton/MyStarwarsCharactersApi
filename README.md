@@ -112,6 +112,23 @@ response:
     }
 }
 ```
+__Erros:__ 
+
+*Sem body-params:*  
+```
+400 Bad Request:
+{
+    "error": "Esta requisiçao necessita dos parametros:'name', 'email', 'password'"
+}
+```
+*Se faltar um dos 3 paramtros:*
+*Se for passado um valor do tipo errado em lagum dos parametros:*
+```
+422 Unprocessable Entity:
+{
+    "error": "{'password': ['required field']}"
+}
+```
 <br>
 
 ***
@@ -134,6 +151,28 @@ response:
     }
 }
 ```
+__Erros:__ 
+*Sem token de acesso:*
+```
+401 Unauthorized:
+{
+    "detail": "Token invalido ou expirado!"
+}
+```
+*Sem body-params:*  
+```
+400 Bad Request:
+{
+    "error": "Esta requisiçao necessita dos parametros:'user_id' + um dos seguintes: 'name', 'email', 'character_id'"
+}
+```
+*Se for passado apenas o parametro user_id:*  
+```
+422 Unprocessable Entity:
+{
+    "error": "Esta rota necessita do parametro 'user_id' + um dos seguintes:'name: str', 'email: str', 'password: str'"
+}
+```
 <br>
 
 ***
@@ -143,8 +182,8 @@ response:
 * __Query-string-params__: `user_id: int` / `name: str` / `email: str`  
 * __*Requer Token de acesso no header*__: `"Authorization": "<seu_token>"`
 
+__Respostas:__
 ```
-response:
 {
     "message": "Usuario encontrado!",
     "data": {
@@ -153,6 +192,28 @@ response:
         "email": "clayton@trampolim.com",
         "password": "Não mostramos isso aqui!"
     }
+}
+```
+__Erros:__  
+*Sem token de acesso:*
+```
+401 Unauthorized:
+{
+    "detail": "Token invalido ou expirado!"
+}
+```
+*Sem query-params:*  
+```
+400 Bad Request:
+{
+    "error": "Essa requisiçao exige um dos seguintes parametros: 'user_id: int', 'name: str', 'email: str'"
+}
+```
+*Caso não haja nenhum usuario com os requisitos dos parametros:*  
+```
+404 Not Found:
+{
+    "error": "Nenhum usuario com com esses parametros encontrado!"
 }
 ```
 <br>
@@ -178,6 +239,21 @@ response:
     ]
 }
 
+```
+__Erros:__  
+*Sem token de acesso:*
+```
+401 Unauthorized:
+{
+    "detail": "Token invalido ou expirado!"
+}
+```
+*Caso não nenhum usuario cadastrado:*  
+```
+404 Not Found:
+{
+    "error": "Nenhum usuario com com esses parametros encontrado!"
+}
 ```
 <br>
 
@@ -207,6 +283,14 @@ response:
     }
 }
 
+```
+__Erros:__ 
+*Sem body-params:*  
+```
+400 Bad Request:
+{
+    "error": "Esta requisiçao necessita dos parametros: 'email', 'password'"
+}
 ```
 <br>
 
