@@ -60,7 +60,7 @@ class RegisterUserController(ControllerInterface):
                 "id": response_method.id,
                 "name": response_method.name,
                 "email": response_method.email,
-                "character": self.__character_characteristics(
+                "favorite starwars character": self.__character_characteristics(
                     response_method.character_id
                 ),
                 "password": "Não mostramos isso aqui!",
@@ -74,6 +74,8 @@ class RegisterUserController(ControllerInterface):
 
         character = self.__character_repo.select_character(character_id=character_id)
 
+        if not character:
+            return None
         response = {
             "id": character.id,
             "name": character.name,

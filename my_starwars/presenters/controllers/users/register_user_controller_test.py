@@ -25,7 +25,6 @@ def test_handler():
     }
 
     response = controller.handler(HttpRequest(body=attributes))
-    print(response)
 
     # Testando as entradas:
     assert infra.insert_user_params["name"] == attributes["name"]

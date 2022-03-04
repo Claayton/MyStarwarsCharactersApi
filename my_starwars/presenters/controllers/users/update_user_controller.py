@@ -4,15 +4,18 @@ from my_starwars.errors.http_error422 import HttpUnprocessableEntity
 from my_starwars.presenters.helpers import HttpRequest, HttpResponse
 from my_starwars.domain.usecases import UpdateUserInterface as UpdateUser
 from my_starwars.presenters.interfaces import ControllerInterface
-from my_starwars.errors import HttpBadRequestError
+from my_starwars.data.interfaces import CharacterRepoInterface
 from my_starwars.domain.models import User
 
 
 class UpdateUserController(ControllerInterface):
     """Controller para o caso de uso UpdateUser"""
 
-    def __init__(self, usecase: Type[UpdateUser]) -> None:
+    def __init__(
+        self, usecase: Type[UpdateUser], character_repo: Type[CharacterRepoInterface]
+    ) -> None:
         self.__usecase = usecase
+        self.__character_repo = character_repo
 
     def handler(self, http_request: Type[HttpRequest]) -> HttpResponse:
         """Metodo para chamar o caso de uso"""
@@ -59,8 +62,7 @@ class UpdateUserController(ControllerInterface):
 'name: str', 'email: str', 'password: str'"
         )
 
-    @classmethod
-    def __format_response(cls, response_method: Type[User]) -> HttpResponse:
+    def __format_response(self, response_method: Type[User]) -> HttpResponse:
         """Formatando a resposta"""
 
         response = {
@@ -69,9 +71,32 @@ class UpdateUserController(ControllerInterface):
                 "id": response_method.id,
                 "name": response_method.name,
                 "email": response_method.email,
-                "character_id": response_method.character_id,
+                "favorite starwars character": self.__character_characteristics(
+                    response_method.character_id
+                ),
                 "password": "Não mostramos isso aqui!",
             },
         }
 
         return HttpResponse(status_code=201, body=response)
+
+    def __character_characteristics(self, character_id: int):
+        """Realiza a busca das caracteristicas do personagem no banco de dados"""
+
+        character = self.__character_repo.select_character(character_id=character_id)
+
+        if not character:
+            return None
+        response = {
+            "id": character.id,
+            "name": character.name,
+            "height": character.height,
+            "mass": character.mass,
+            "hair_color": character.hair_color,
+            "skin_color": character.skin_color,
+            "eye_color": character.eye_color,
+            "birth_year": character.birth_year,
+            "gender": character.gender,
+        }
+
+        return response

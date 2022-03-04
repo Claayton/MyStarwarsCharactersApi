@@ -2,7 +2,7 @@
 from faker import Faker
 from my_starwars.presenters.helpers import HttpRequest
 from my_starwars.data.users import GetUser
-from my_starwars.infra.tests import UserRepoSpy
+from my_starwars.infra.tests import UserRepoSpy, CharacterRepoSpy
 from .get_user_controller import GetUserController
 
 fake = Faker()
@@ -12,8 +12,9 @@ def test_handler_with_query_param_user_id():
     """Testando o metodo handler"""
 
     infra = UserRepoSpy()
+    character_repo = CharacterRepoSpy()
     usecase = GetUser(infra)
-    controller = GetUserController(usecase)
+    controller = GetUserController(usecase, character_repo)
 
     attributes = {"user_id": fake.random_number()}
 
@@ -31,8 +32,9 @@ def test_handler_with_query_param_name():
     """Testando o metodo handler"""
 
     infra = UserRepoSpy()
+    character_repo = CharacterRepoSpy()
     usecase = GetUser(infra)
-    controller = GetUserController(usecase)
+    controller = GetUserController(usecase, character_repo)
 
     attributes = {"name": fake.name()}
 
@@ -50,8 +52,9 @@ def test_handler_with_query_param_email():
     """Testando o metodo handler"""
 
     infra = UserRepoSpy()
+    character_repo = CharacterRepoSpy()
     usecase = GetUser(infra)
-    controller = GetUserController(usecase)
+    controller = GetUserController(usecase, character_repo)
 
     attributes = {"email": f"{fake.word()}@test.com"}
 

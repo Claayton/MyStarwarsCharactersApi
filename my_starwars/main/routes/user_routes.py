@@ -43,7 +43,9 @@ async def get_user(request: RequestFastApi):
 
         if middleware_testing(request):
 
-            controller = get_user_composer(infra=UserRepoSpy())
+            controller = get_user_composer(
+                infra=UserRepoSpy(), character_repo=CharacterRepoSpy()
+            )
             response = await request_adapter(request, controller.handler)
 
         else:
@@ -105,7 +107,9 @@ async def update_user(request: RequestFastApi):
 
         if middleware_testing(request):
 
-            controller = update_user_composer(infra=UserRepoSpy())
+            controller = update_user_composer(
+                infra=UserRepoSpy(), character_repo=CharacterRepoSpy()
+            )
             response = await request_adapter(request, controller.handler)
 
         else:
