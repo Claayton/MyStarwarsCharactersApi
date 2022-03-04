@@ -1,4 +1,9 @@
 """Arquivo para montar o caso de uso RegisterCharacter"""
+from typing import Type
+from my_starwars.data.interfaces import (
+    CharacterRepoInterface,
+    StarWarsCharactersConsumerInterface,
+)
 from my_starwars.infra.database.repo import CharacterRepo
 from my_starwars.infra.consumer import StarWarsCharactersConsumer
 from my_starwars.data.chraracters import (
@@ -11,11 +16,14 @@ from my_starwars.presenters.controllers.characters import RegisterCharacterContr
 from my_starwars.config import CONNECTION_STRING
 
 
-def register_character_composer():
+def register_character_composer(
+    infra_repo: Type[CharacterRepoInterface] = CharacterRepo(CONNECTION_STRING),
+    infra_consumer: Type[
+        StarWarsCharactersConsumerInterface
+    ] = StarWarsCharactersConsumer(SEARCH_URL),
+):
     """Montagem do caso de uso RegisterCharacter"""
 
-    infra_repo = CharacterRepo(CONNECTION_STRING)
-    infra_consumer = StarWarsCharactersConsumer(SEARCH_URL)
     colector = StarwarsCharactersColector(infra_consumer)
     get_character = GetCharacter(infra_repo)
     usecase = RegisterCharacter(colector, infra_repo, get_character)

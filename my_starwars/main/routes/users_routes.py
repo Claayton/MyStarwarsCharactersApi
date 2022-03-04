@@ -1,12 +1,15 @@
 """Arquivo de rotas de usuarios"""
 from fastapi import APIRouter, Depends, Request as RequestFastApi
 from fastapi.responses import JSONResponse
+from my_starwars.infra.tests import CharacterRepoSpy
+from my_starwars.main.routes.middleware import middleware_testing
 from my_starwars.main.composers import get_users_composer
 from my_starwars.presenters.errors import handler_errors
 from my_starwars.main.adapters import request_adapter
 from my_starwars.data.auth import Authorization
 from my_starwars.data.users import GetUser
 from my_starwars.infra.database.repo import UserRepo
+from my_starwars.infra.tests import UserRepoSpy
 from my_starwars.config import CONNECTION_STRING
 
 auth = Authorization(GetUser(UserRepo(CONNECTION_STRING)))
@@ -25,8 +28,17 @@ async def get_users(request: RequestFastApi):
     response = None
 
     try:
-        controller = get_users_composer()
-        response = await request_adapter(request, controller.handler)
+
+        if middleware_testing(request):
+
+            controller = get_users_composer(
+                infra=UserRepoSpy(), character_repo=CharacterRepoSpy()
+            )
+            response = await request_adapter(request, controller.handler)
+
+        else:
+            controller = get_users_composer()
+            response = await request_adapter(request, controller.handler)
 
     except Exception as error:  # pylint: disable=W0703
         response = handler_errors(error)

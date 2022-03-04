@@ -1,7 +1,7 @@
 """Testes para GetUsersController"""
 from faker import Faker
 from my_starwars.data.users import GetUser
-from my_starwars.infra.tests import UserRepoSpy
+from my_starwars.infra.tests import UserRepoSpy, CharacterRepoSpy
 from . import GetUsersController
 
 fake = Faker()
@@ -11,8 +11,9 @@ def test_handler():
     """Testando o metodo handler"""
 
     infra = UserRepoSpy()
+    character_repo = CharacterRepoSpy()
     usecase = GetUser(infra)
-    controller = GetUsersController(usecase)
+    controller = GetUsersController(usecase, character_repo)
 
     response = controller.handler(None)
 

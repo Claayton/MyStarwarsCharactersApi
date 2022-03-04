@@ -12,12 +12,15 @@ class UserRepo(UserRepoInterface):
     def __init__(self, connection_string: str) -> None:
         self.__connection_string = connection_string
 
-    def insert_user(self, name: str, email: str, password_hash: str) -> User:
+    def insert_user(
+        self, name: str, email: str, password_hash: str, character_id: int = None
+    ) -> User:
         """
         Realiza a inserçao de um novo usuario na tabela User.
         :param name: Nome do usuario.
         :param email: Email do usuario.
         :param password_hash: Hash da senha do usuario.
+        :param character_id: ID do personagem favorito do usuario.
         :return: Uma tupla nomeada com todos os dados do usuario cadastrado.
         """
 
@@ -25,7 +28,10 @@ class UserRepo(UserRepoInterface):
 
             try:
                 new_user = UserModel(
-                    name=name, email=email, password_hash=password_hash
+                    name=name,
+                    email=email,
+                    password_hash=password_hash,
+                    character_id=character_id,
                 )
                 data_base.session.add(new_user)
                 data_base.session.commit()

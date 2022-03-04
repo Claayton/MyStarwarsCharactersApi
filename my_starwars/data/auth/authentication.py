@@ -43,6 +43,7 @@ class Authentication(AuthenticationInterface):
                 "iat": datetime.utcnow(),
                 "email": user.email,
                 "name": user.name,
+                "character_id": user.character_id,
             }
 
             token = jwt.encode(payload=payloads, key=SECRET_KEY)
@@ -53,8 +54,13 @@ class Authentication(AuthenticationInterface):
                     "Authorization": token,
                     "exp": payloads["exp"],
                     "id": user.id,
-                    "user": {"id": user.id, "name": user.name, "email": user.email},
+                    "user": {
+                        "id": user.id,
+                        "name": user.name,
+                        "email": user.email,
+                        "character_id": user.character_id,
+                    },
                 },
             }
 
-        return HttpUnauthorized(message="Erro de authenticaçao!")
+        raise HttpUnauthorized(message="Erro de authenticaçao!")

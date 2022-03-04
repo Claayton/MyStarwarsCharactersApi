@@ -22,11 +22,12 @@ def test_authentication():
     name = fake.name()
     email = data["email"]
     password_hash = hash_password.hash_password(data["password"])
+    character_id = fake.random_number(digits=1)
 
     engine = data_base_connection_handler.get_engine()
     engine.execute(
-        f"INSERT INTO users (id, name, email, password_hash)\
-            VALUES ('{user_id}', '{name}', '{email}', '{password_hash.decode()}');"
+        f"INSERT INTO users (id, name, email, password_hash, character_id)\
+            VALUES ('{user_id}', '{name}', '{email}', '{password_hash.decode()}', '{character_id}');"
     )
 
     response = client.post(url=url, json=data)

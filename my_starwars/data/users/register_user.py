@@ -17,12 +17,15 @@ class RegisterUser(RegisterUserInterface):
         self.__user_repo = user_repo
         self.__hash_password = hash_password
 
-    def register(self, name: str, email: str, password: str) -> Dict[bool, User]:
+    def register(
+        self, name: str, email: str, password: str, character_id: int = None
+    ) -> Dict[bool, User]:
         """
         Classe responsavel por realizar o registro de novo usuario no banco de dados.
         :param name: Nome do usuario.
         :param email: Email do usuario.
         :para password_hash: Um hash da senha do usuario.
+        :param character_id: ID do personagem favorito do usuario.
         :return: Uma mensagem de sucesso e um usuario.
         """
 
@@ -37,7 +40,10 @@ class RegisterUser(RegisterUserInterface):
             password_hash = self.__hash_password.hash_password(password)
 
             user_insertion = self.__user_repo.insert_user(
-                name=name, email=email, password_hash=password_hash.decode()
+                name=name,
+                email=email,
+                password_hash=password_hash.decode(),
+                character_id=character_id,
             )
 
             return {"success": validate_entry, "data": user_insertion}

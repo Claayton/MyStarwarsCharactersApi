@@ -2,7 +2,7 @@
 from faker import Faker
 from my_starwars.presenters.helpers import HttpRequest
 from my_starwars.data.users import UpdateUser
-from my_starwars.infra.tests import UserRepoSpy
+from my_starwars.infra.tests import UserRepoSpy, CharacterRepoSpy
 from .update_user_controller import UpdateUserController
 
 fake = Faker()
@@ -12,8 +12,9 @@ def test_handler():
     """Testando o metodo handler"""
 
     infra = UserRepoSpy()
+    character_repo = CharacterRepoSpy()
     usecase = UpdateUser(infra)
-    controller = UpdateUserController(usecase)
+    controller = UpdateUserController(usecase, character_repo)
 
     attributes = {
         "user_id": fake.random_number(digits=1),

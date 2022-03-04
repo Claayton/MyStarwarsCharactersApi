@@ -20,7 +20,11 @@ class StarwarsCharactersColectorController(ControllerInterface):
         response = self.__usecase.starwars_characters_colector()
 
         if response["success"] is True:
-            return HttpResponse(status_code=200, body=response["data"])
+
+            return HttpResponse(
+                status_code=200,
+                body={"message": "Usuarios encontrados!", "data": response["data"]},
+            )
 
         raise HttpBadRequestError(
             message={"error": "Algo inesperado aconteceu nos controllers do servidor!"}

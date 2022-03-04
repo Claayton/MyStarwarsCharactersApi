@@ -6,6 +6,7 @@ from my_starwars.errors import (
     HttpBadRequestError,
     HttpUnprocessableEntity,
     HttpUnauthorized,
+    HttpNotFound
 )
 
 
@@ -23,6 +24,7 @@ def handler_errors(error: Type[Exception]) -> Dict:
             HttpBadRequestError,
             HttpUnprocessableEntity,
             HttpUnauthorized,
+            HttpNotFound
         ),
     ):
         http_response = HttpResponse(
@@ -30,6 +32,6 @@ def handler_errors(error: Type[Exception]) -> Dict:
         )
 
     else:
-        http_response = HttpResponse(status_code=50, body={"error": str(error)})
+        http_response = HttpResponse(status_code=500, body={"error": str(error)})
 
     return http_response

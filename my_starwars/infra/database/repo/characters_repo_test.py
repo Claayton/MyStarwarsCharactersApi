@@ -2,12 +2,12 @@
 from faker import Faker
 from my_starwars.infra.database.config import DataBaseConnectionHandler
 from my_starwars.domain.models import Character
-from my_starwars import config
+from my_starwars.config import CONNECTION_STRING_TEST
 from my_starwars.infra.tests import CharacterRepoSpy
 
 fake = Faker()
 character_repo = CharacterRepoSpy()
-data_base_connection_handler = DataBaseConnectionHandler(config.CONNECTION_STRING)
+data_base_connection_handler = DataBaseConnectionHandler(CONNECTION_STRING_TEST)
 
 
 def insert_characters():
