@@ -57,4 +57,4 @@ class Authentication(AuthenticationInterface):
                 },
             }
 
-        return HttpUnauthorized(message="Erro de authenticaçao!")
+        raise HttpUnauthorized(message="Erro de authenticaçao!")
