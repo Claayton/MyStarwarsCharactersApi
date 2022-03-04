@@ -1,6 +1,7 @@
 """Arquivo de rotas de usuarios"""
 from fastapi import APIRouter, Depends, Request as RequestFastApi
 from fastapi.responses import JSONResponse
+from my_starwars.infra.tests import CharacterRepoSpy
 from my_starwars.main.routes.middleware import middleware_testing
 from my_starwars.main.composers import get_users_composer
 from my_starwars.presenters.errors import handler_errors
@@ -30,7 +31,9 @@ async def get_users(request: RequestFastApi):
 
         if middleware_testing(request):
 
-            controller = get_users_composer(infra=UserRepoSpy())
+            controller = get_users_composer(
+                infra=UserRepoSpy(), character_repo=CharacterRepoSpy()
+            )
             response = await request_adapter(request, controller.handler)
 
         else:
