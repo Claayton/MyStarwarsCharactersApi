@@ -12,7 +12,7 @@ from my_starwars.presenters.errors import handler_errors
 from my_starwars.data.auth import Authorization
 from my_starwars.data.users import GetUser
 from my_starwars.infra.database.repo import UserRepo
-from my_starwars.infra.tests import UserRepoSpy
+from my_starwars.infra.tests import UserRepoSpy, CharacterRepoSpy
 from my_starwars.config import CONNECTION_STRING
 from my_starwars.main.composers import (
     register_user_composer,
@@ -73,7 +73,9 @@ async def register_user(request: RequestFastApi):
 
         if middleware_testing(request):
 
-            controller = register_user_composer(infra=UserRepoSpy())
+            controller = register_user_composer(
+                infra=UserRepoSpy(), character_repo=CharacterRepoSpy()
+            )
             response = await request_adapter(request, controller.handler)
 
         else:
