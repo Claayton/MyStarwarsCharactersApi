@@ -3,12 +3,12 @@ from faker import Faker
 from my_starwars.infra.database.config import DataBaseConnectionHandler
 from my_starwars.infra.database.entities import User as UserModel
 from my_starwars.domain.models import User
-from my_starwars import config
+from my_starwars.config import CONNECTION_STRING_TEST
 from . import UserRepo
 
 fake = Faker()
-user_repo = UserRepo(config.CONNECTION_STRING)
-data_base_connection_handler = DataBaseConnectionHandler(config.CONNECTION_STRING)
+user_repo = UserRepo(CONNECTION_STRING_TEST)
+data_base_connection_handler = DataBaseConnectionHandler(CONNECTION_STRING_TEST)
 
 
 def test_insert_user():
