@@ -2,12 +2,12 @@
 from fastapi.testclient import TestClient
 from faker import Faker
 from my_starwars.infra.database.config import DataBaseConnectionHandler
-from my_starwars.config import CONNECTION_STRING
+from my_starwars.config import CONNECTION_STRING_TEST
 from .user_routes import user
 
 fake = Faker()
 client = TestClient(user)
-data_base_connection_handler = DataBaseConnectionHandler(CONNECTION_STRING)
+data_base_connection_handler = DataBaseConnectionHandler(CONNECTION_STRING_TEST)
 
 
 def test_get_user_with_name_param():
@@ -23,8 +23,9 @@ def test_get_user_with_name_param():
 
     url = "/api/user/"
     params = {"name": name}
-    header = {
-        "Authorization": "$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK"
+    headers = {
+        "Authorization": "$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK",
+        "X-Test": "true",
     }
 
     engine = data_base_connection_handler.get_engine()
@@ -33,7 +34,7 @@ def test_get_user_with_name_param():
             VALUES ('{user_id}', '{name}', '{email}', '{password}');"
     )
 
-    response = client.get(url=url, params=params, headers=header)
+    response = client.get(url=url, params=params, headers=headers)
 
     assert response.status_code == 200
     assert isinstance(response.json(), dict)
@@ -57,8 +58,9 @@ def test_get_user_with_email_param():
 
     url = "/api/user/"
     params = {"email": email}
-    header = {
-        "Authorization": "$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK"
+    headers = {
+        "Authorization": "$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK",
+        "X-Test": "true",
     }
 
     engine = data_base_connection_handler.get_engine()
@@ -67,7 +69,7 @@ def test_get_user_with_email_param():
             VALUES ('{user_id}', '{name}', '{email}', '{password}');"
     )
 
-    response = client.get(url=url, params=params, headers=header)
+    response = client.get(url=url, params=params, headers=headers)
 
     assert response.status_code == 200
     assert isinstance(response.json(), dict)
@@ -91,8 +93,9 @@ def test_get_user_with_user_id_param():
 
     url = "/api/user/"
     params = {"user_id": user_id}
-    header = {
-        "Authorization": "$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK"
+    headers = {
+        "Authorization": "$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK",
+        "X-Test": "true",
     }
 
     engine = data_base_connection_handler.get_engine()
@@ -101,7 +104,7 @@ def test_get_user_with_user_id_param():
             VALUES ('{user_id}', '{name}', '{email}', '{password}');"
     )
 
-    response = client.get(url=url, params=params, headers=header)
+    response = client.get(url=url, params=params, headers=headers)
 
     assert response.status_code == 200
     assert isinstance(response.json(), dict)
@@ -125,8 +128,9 @@ def test_get_user_error400_without_query_params():
 
     url = "/api/user/"
     params = {}
-    header = {
-        "Authorization": "$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK"
+    headers = {
+        "Authorization": "$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK",
+        "X-Test": "true",
     }
 
     engine = data_base_connection_handler.get_engine()
@@ -135,7 +139,7 @@ def test_get_user_error400_without_query_params():
             VALUES ('{user_id}', '{name}', '{email}', '{password}');"
     )
 
-    response = client.get(url=url, params=params, headers=header)
+    response = client.get(url=url, params=params, headers=headers)
 
     assert response.status_code == 400
     assert "error" in response.json()
@@ -147,6 +151,7 @@ def test_register_user():
     """Testando a rota register_user"""
 
     url = "/api/user/"
+    headers = {"X-Test": "true"}
     data = {
         "name": fake.name(),
         "email": f"{fake.word()}@test.com",
@@ -155,7 +160,7 @@ def test_register_user():
 
     engine = data_base_connection_handler.get_engine()
 
-    response = client.post(url=url, json=data)
+    response = client.post(url=url, json=data, headers=headers)
 
     assert response.status_code == 201
     assert isinstance(response.json(), dict)
@@ -176,13 +181,14 @@ def test_register_user_error422_with_invalid_name_param():
     """
 
     url = "/api/user/"
+    headers = {"X-Test": "true"}
     data = {
         "name": fake.random_number(),
         "email": f"{fake.word()}@test.com",
         "password": fake.word(),
     }
 
-    response = client.post(url=url, json=data)
+    response = client.post(url=url, json=data, headers=headers)
 
     assert response.status_code == 422
     assert "error" in response.json()
@@ -195,9 +201,10 @@ def test_register_user_error422_with_invalid_email_param():
     """
 
     url = "/api/user/"
+    headers = {"X-Test": "true"}
     data = {"name": fake.name(), "email": fake.random_number(), "password": fake.word()}
 
-    response = client.post(url=url, json=data)
+    response = client.post(url=url, json=data, headers=headers)
 
     assert response.status_code == 422
     assert "error" in response.json()
@@ -210,8 +217,9 @@ def test_register_user_error400_without_body_params():
     """
 
     url = "/api/user/"
+    headers = {"X-Test": "true"}
 
-    response = client.post(url=url)
+    response = client.post(url=url, headers=headers)
 
     assert response.status_code == 400
     assert "error" in response.json()
@@ -223,6 +231,7 @@ def test_update_user_with_user_id_name_and_email_and_character_id_params():
     """
 
     url = "/api/user/"
+    headers = {"X-Test": "true"}
     data = {
         "user_id": fake.random_number(digits=1),
         "name": fake.name(),
@@ -241,7 +250,7 @@ def test_update_user_with_user_id_name_and_email_and_character_id_params():
             VALUES ('{user_id}', '{name}', '{email}', '{password}');"
     )
 
-    response = client.put(url=url, json=data)
+    response = client.put(url=url, json=data, headers=headers)
 
     assert response.status_code == 201
     assert isinstance(response.json(), dict)
@@ -251,8 +260,7 @@ def test_update_user_with_user_id_name_and_email_and_character_id_params():
     assert "email" in response.json()["data"]
     assert "password" in response.json()["data"]
 
-    name = data["name"]
-    engine.execute(f"DELETE FROM users WHERE name='{name}';")
+    engine.execute(f"DELETE FROM users WHERE id='{user_id}';")
 
 
 def test_update_user_with_only_user_id_and_name_params():
@@ -262,6 +270,7 @@ def test_update_user_with_only_user_id_and_name_params():
     """
 
     url = "/api/user/"
+    headers = {"X-Test": "true"}
     data = {"user_id": fake.random_number(digits=1), "name": fake.name()}
 
     user_id = data["user_id"]
@@ -275,7 +284,7 @@ def test_update_user_with_only_user_id_and_name_params():
             VALUES ('{user_id}', '{name}', '{email}', '{password}');"
     )
 
-    response = client.put(url=url, json=data)
+    response = client.put(url=url, json=data, headers=headers)
 
     assert response.status_code == 201
     assert isinstance(response.json(), dict)
@@ -285,8 +294,7 @@ def test_update_user_with_only_user_id_and_name_params():
     assert "email" in response.json()["data"]
     assert "password" in response.json()["data"]
 
-    name = data["name"]
-    engine.execute(f"DELETE FROM users WHERE name='{name}';")
+    engine.execute(f"DELETE FROM users WHERE id='{user_id}';")
 
 
 def test_update_user_with_only_user_id_and_email_params():
@@ -296,6 +304,7 @@ def test_update_user_with_only_user_id_and_email_params():
     """
 
     url = "/api/user/"
+    headers = {"X-Test": "true"}
     data = {"user_id": fake.random_number(digits=1), "email": f"{fake.word()}@test.com"}
 
     user_id = data["user_id"]
@@ -309,7 +318,7 @@ def test_update_user_with_only_user_id_and_email_params():
             VALUES ('{user_id}', '{name}', '{email}', '{password}');"
     )
 
-    response = client.put(url=url, json=data)
+    response = client.put(url=url, json=data, headers=headers)
 
     assert response.status_code == 201
     assert isinstance(response.json(), dict)
@@ -329,6 +338,7 @@ def test_update_user_with_only_user_id_and_character_id_params():
     """
 
     url = "/api/user/"
+    headers = {"X-Test": "true"}
     data = {
         "user_id": fake.random_number(digits=1),
         "character_id": fake.random_number(digits=1),
@@ -345,7 +355,7 @@ def test_update_user_with_only_user_id_and_character_id_params():
             VALUES ('{user_id}', '{name}', '{email}', '{password}');"
     )
 
-    response = client.put(url=url, json=data)
+    response = client.put(url=url, json=data, headers=headers)
 
     assert response.status_code == 201
     assert isinstance(response.json(), dict)
@@ -355,7 +365,7 @@ def test_update_user_with_only_user_id_and_character_id_params():
     assert "email" in response.json()["data"]
     assert "password" in response.json()["data"]
 
-    engine.execute(f"DELETE FROM users WHERE name='{name}';")
+    engine.execute(f"DELETE FROM users WHERE id='{user_id}';")
 
 
 def test_update_user_error422_with_only_user_id_param():
@@ -365,6 +375,7 @@ def test_update_user_error422_with_only_user_id_param():
     """
 
     url = "/api/user/"
+    headers = {"X-Test": "true"}
     data = {"user_id": fake.random_number(digits=1)}
 
     user_id = data["user_id"]
@@ -378,7 +389,7 @@ def test_update_user_error422_with_only_user_id_param():
             VALUES ('{user_id}', '{name}', '{email}', '{password}');"
     )
 
-    response = client.put(url=url, json=data)
+    response = client.put(url=url, json=data, headers=headers)
 
     assert response.status_code == 422
     assert "error" in response.json()
@@ -393,6 +404,7 @@ def test_update_user_error400_without_params():
     """
 
     url = "/api/user/"
+    headers = {"X-Test": "true"}
     data = {}
 
     user_id = fake.random_number()
@@ -406,7 +418,7 @@ def test_update_user_error400_without_params():
             VALUES ('{user_id}', '{name}', '{email}', '{password}');"
     )
 
-    response = client.put(url=url, json=data)
+    response = client.put(url=url, json=data, headers=headers)
 
     assert response.status_code == 422
     assert "error" in response.json()

@@ -6,11 +6,13 @@ from my_starwars.validators import (
     get_user_validator,
     update_user_validator,
 )
+from my_starwars.main.routes.middleware import middleware_testing
 from my_starwars.main.adapters import request_adapter
 from my_starwars.presenters.errors import handler_errors
 from my_starwars.data.auth import Authorization
 from my_starwars.data.users import GetUser
 from my_starwars.infra.database.repo import UserRepo
+from my_starwars.infra.tests import UserRepoSpy
 from my_starwars.config import CONNECTION_STRING
 from my_starwars.main.composers import (
     register_user_composer,
@@ -38,8 +40,16 @@ async def get_user(request: RequestFastApi):
 
     try:
         await get_user_validator(request)
-        controller = get_user_composer()
-        response = await request_adapter(request, controller.handler)
+
+        if middleware_testing(request):
+
+            controller = get_user_composer(infra=UserRepoSpy())
+            response = await request_adapter(request, controller.handler)
+
+        else:
+
+            controller = get_user_composer()
+            response = await request_adapter(request, controller.handler)
 
     except Exception as error:  # pylint: disable=W0703
         response = handler_errors(error)
@@ -60,8 +70,16 @@ async def register_user(request: RequestFastApi):
 
     try:
         await register_user_validator(request)
-        controller = register_user_composer()
-        response = await request_adapter(request, controller.handler)
+
+        if middleware_testing(request):
+
+            controller = register_user_composer(infra=UserRepoSpy())
+            response = await request_adapter(request, controller.handler)
+
+        else:
+
+            controller = register_user_composer()
+            response = await request_adapter(request, controller.handler)
 
     except Exception as error:  # pylint: disable=W0703
         response = handler_errors(error)
@@ -82,8 +100,15 @@ async def update_user(request: RequestFastApi):
 
     try:
         await update_user_validator(request)
-        controller = update_user_composer()
-        response = await request_adapter(request, controller.handler)
+
+        if middleware_testing(request):
+
+            controller = update_user_composer(infra=UserRepoSpy())
+            response = await request_adapter(request, controller.handler)
+
+        else:
+            controller = update_user_composer()
+            response = await request_adapter(request, controller.handler)
 
     except Exception as error:  # pylint: disable=W0703
         response = handler_errors(error)

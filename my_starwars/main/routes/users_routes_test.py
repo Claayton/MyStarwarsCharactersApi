@@ -2,12 +2,12 @@
 from fastapi.testclient import TestClient
 from faker import Faker
 from my_starwars.infra.database.config import DataBaseConnectionHandler
-from my_starwars.config import CONNECTION_STRING
+from my_starwars.config import CONNECTION_STRING_TEST
 from .users_routes import users
 
 fake = Faker()
 client = TestClient(users)
-data_base_connection_handler = DataBaseConnectionHandler(CONNECTION_STRING)
+data_base_connection_handler = DataBaseConnectionHandler(CONNECTION_STRING_TEST)
 
 
 def test_get_users():
@@ -19,8 +19,9 @@ def test_get_users():
     password = fake.word()
 
     url = "/api/users/"
-    header = {
-        "Authorization": "$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK"
+    headers = {
+        "Authorization": "$2b$12$CZQnnbX2M6JBYofDYsu.0.Je9QgbkKpY0Jzr8HgqVzdLuUtz57sZK",
+        "X-Test": "true",
     }
 
     engine = data_base_connection_handler.get_engine()
@@ -29,7 +30,7 @@ def test_get_users():
             VALUES ('{user_id}', '{name}', '{email}', '{password}');"
     )
 
-    response = client.get(url=url, headers=header)
+    response = client.get(url=url, headers=headers)
 
     assert response.status_code == 200
     assert isinstance(response.json(), dict)
